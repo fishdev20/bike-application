@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fishdev20/bike-app.git"
+    "url": "git+https://github.com/fishdev20/bike-application.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fishdev20/bike-app/issues"
+    "url": "https://github.com/fishdev20/bike-application/issues"
   },
-  "homepage": "https://github.com/fishdev20/bike-app#readme",
+  "homepage": "https://github.com/fishdev20/bike-application#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "create-react-app": "^5.0.1",
@@ -28,5 +28,6 @@
     "mongodb": "^4.8.0",
     "mongoose": "^6.4.5",
     "nodemon": "^2.0.19"
-  }
+  },
+  "devDependencies": {}
 }
