@@ -1,0 +1,25 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    scrollbar-width: none;
+    // &::-webkit-scrollbar {
+    //     display: none;
+    // }
+        // overflow-y: scroll;
+        .station_container {
+            background: #f1f1f1;
+            height: 80px;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+    
+        }
+    
+    
+
+}
