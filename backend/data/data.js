@@ -32,7 +32,7 @@ const importStations = () => {
 
 const sendStations = async (stations) => {
     for (const obj of stations) {
-      if (obj.Kaupunki === ' ') {
+      if (obj.Kaupunki === '') {
         const station = new stationsModel({
           nimi: obj.Nimi,
           namn: obj.Namn,

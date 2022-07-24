@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
 app.get('/api/stations', async (req, res) => {
   try {
     const features = new Apifeatures(Stations.find(), req.query)
-    .paginating()
+    // .paginating()
     .searching()
     const stationsRes = await features.query
 
@@ -81,7 +81,7 @@ app.get('/api/stations/:id', async (req, res) => {
 app.get('/api/journeys', async (req, res) => {
   try {
     const features = new Apifeatures(Journeys.find(), req.query)
-    .paginating()
+    // .paginating()
     // .searching()
     const journeysRes = await features.query
 

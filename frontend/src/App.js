@@ -1,12 +1,23 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import './App.scss';
-import StationsTable from './components/StationsTable';
+import Home from './components/Home';
+import Menu from './components/Menu';
+import Stations from './components/Stations';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Journeys from './components/Journeys';
 function App() {
 
   
   return (
     <div className="App">
-      <StationsTable />
+      <BrowserRouter>
+            <Menu />
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='journeys' element={<Journeys />} />
+              <Route path='stations' element={<Stations />} />
+            </Routes>
+      </BrowserRouter>
     </div>
   );
 }
