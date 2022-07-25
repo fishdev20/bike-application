@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { fetchStationInfo } from '../data/fetchData'
-import { useGlobal } from 'reactn';
 import axios from 'axios';
 import EnvironmentTwoTone from '@ant-design/icons/EnvironmentTwoTone'
 

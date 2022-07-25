@@ -9,6 +9,7 @@ import ExpandData from './ExpandData';
 import { Button, Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import ModalCustom from './ModalCustom';
 
 
 export default function Journeys() {
@@ -40,8 +41,26 @@ export default function Journeys() {
     // )
 
     const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const searchInput = useRef(null);
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const searchInput = useRef(null);
+
+
+    const showModal = () => {
+      setVisible(true);
+    };
+    const handleOk = () => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setVisible(false);
+      }, 3000);
+    };
+
+    const handleCancel = () => {
+      setVisible(false);
+    };
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -175,6 +194,23 @@ export default function Journeys() {
 
   return (
     <div className='table-container'>
+      <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px'}}>
+        <Button 
+          onClick={showModal}
+          className='btn-add'
+        >
+          Add new station
+        </Button>
+      </div>
+      
+      <ModalCustom
+        visible={visible}
+        loading={loading}
+        handleCancel={handleCancel}
+        handleOk={handleOk}
+      >
+        
+      </ModalCustom>
       <TableData columns={columns} tableData={tableData}/>
     </div>
   )

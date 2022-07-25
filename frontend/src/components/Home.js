@@ -94,20 +94,20 @@ const Home = ({active, mode}) => {
                             >
                                 <h1>
                                     <div className="hero-content-line">
-                                        Lorem ipsum dolor 
+                                        Bike Application 
                                     </div>
                                     <div className="hero-content-line">
-                                        sit amet, consectetur 
+                                        Helsinki! 
                                     </div>
                                     
                                     <div className="hero-content-line">
-                                        adipiscing elit.
+                                        Solita Academic 2022.
                                     </div>
                                 </h1>
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..
                                 </p>
-                                <div className="btn-row">
+                                {/* <div className="btn-row">
                                     <button 
                                         className={`explore-button ${mode ? 'buttonLight' : 'buttonDark'}`}
                                         onClick={handleClick}
@@ -122,7 +122,7 @@ const Home = ({active, mode}) => {
                                     
                                     </button>
                                     
-                                </div>
+                                </div> */}
                                   
                             </div>
                         </Grid>

@@ -9,15 +9,33 @@ import ExpandData from './ExpandData';
 import { Button, Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import ModalCustom from './ModalCustom';
 
 
 export default function Stations() {
     const [stations, setStations] = useGlobal('stations');
+    const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     const stationsUrl = `http://localhost:9000/api/stations`
     useEffect(() => {
         fetchData(setStations,stationsUrl);
     },[])
+
+    const showModal = () => {
+      setVisible(true);
+    };
+    const handleOk = () => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setVisible(false);
+      }, 3000);
+    };
+  
+    const handleCancel = () => {
+      setVisible(false);
+    };
 
 
     
@@ -166,6 +184,23 @@ export default function Stations() {
 
   return (
     <div className='table-container'>
+      <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
+        <Button 
+          onClick={showModal}
+          className='btn-add'
+        >
+          Add new station
+        </Button>
+      </div>
+      
+      <ModalCustom 
+        visible={visible}
+        loading={loading}
+        handleCancel={handleCancel}
+        handleOk={handleOk}
+      >
+
+      </ModalCustom>
       <TableData columns={columns} tableData={tableData} expand={true}/>
     </div>
   )

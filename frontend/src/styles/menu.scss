@@ -28,6 +28,7 @@
             nav {
                 display: flex;
                 justify-content: space-between;
+                column-gap: 20px;
                 a {
                     color: #fff;
                     &:hover {
@@ -35,9 +36,68 @@
                     }
                 }
             }
-
+        }
+        .hamburger-react {
+            display: none;
         }
     }
     
     
+}
+.nav-mobile {
+    display: none;
+    text-align: center;
+}
+
+@media screen and (max-width: 900px) {
+    .menu {
+        display: none;
+    }
+    .nav-container {
+        .hamburger-react {
+            display: block !important;
+            z-index: 9999;
+        }
+    }
+
+    .nav-mobile {
+        display: block;
+        background: #007ac9;
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        z-index: 99;
+        top: 50px;
+        left: -100%;
+        opacity: 0;
+        transition: all 0.5s ease;
+        .menu-mobile {
+            height: 100%;
+            width: 100%;
+            nav {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                height: 100%;
+                row-gap: 50px;
+                align-items: center;
+                a {
+                    font-size: 24px;
+                    width: 100%;
+                    max-width: 100px;
+                    color: #fff;
+                    &:hover {
+                        border-width: 30px;
+                        border-bottom: 1px solid #fff;
+                    }
+                }
+            }
+        }
+    }
+    .active {
+        left: 0;
+        opacity: 1;
+        transition: all 0.5s ease;
+        z-index: 99;
+    }
 }
