@@ -1,11 +1,9 @@
-import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
 import { fetchData } from '../data/fetchData';
 import TableData from './TableData';
 
 import '../styles/stations.scss'
-import ExpandData from './ExpandData';
 import { Button, Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
@@ -189,12 +187,12 @@ export default function Journeys() {
       departureStationName: journey.departureStationName,
       returnStationName: journey.returnStationName,
       distance: `${journey.distance} km`,
-      duration: `${journey.duration} h`,
+      duration: `${journey.duration} minutes`,
   }))
 
   return (
     <div className='table-container'>
-      <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px'}}>
+      <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
         <Button 
           onClick={showModal}
           className='btn-add'

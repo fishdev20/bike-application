@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
 import { fetchData } from '../data/fetchData';

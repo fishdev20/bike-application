@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React from 'react'
 import { Button, Modal } from 'antd'
 import '../App.scss'
 

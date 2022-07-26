@@ -1,4 +1,5 @@
 @import '~antd/dist/antd.css';
+// @import 'leaflet/dist/leaflet.css';
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,700i&display=swap");
 
 html {
@@ -8,6 +9,16 @@ html {
     font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
+      &::-webkit-scrollbar {
+        width: 0px;
+      }
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #71b3df; 
+        border-radius: 5px;
+      }
   }
 }
 
