@@ -13,10 +13,10 @@ import ModalCustom from './ModalCustom';
 export default function Journeys() {
     const [journeys, setJourneys] = useGlobal('journeys');
 
-    const journeyUrl = `http://localhost:9000/api/journeys`
-    useEffect(() => {
-        fetchData(setJourneys,journeyUrl);
-    },[])
+    // const journeyUrl = `http://localhost:9000/api/journeys`
+    // useEffect(() => {
+    //     fetchData(setJourneys,journeyUrl);
+    // },[])
 
 
     

@@ -87,7 +87,7 @@ const readJourneys = async (file) => {
     const filteredData = csvData.filter((obj) => {
       return Number(obj.distance) >= 10 && Number(obj.duration) >= 10
     })
-    filteredData.splice(10000, filteredData.length)
+    filteredData.splice(1000, filteredData.length)
     sendJourneys(filteredData)
   });
 }

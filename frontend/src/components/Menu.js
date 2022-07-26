@@ -19,8 +19,9 @@ export default function Menu() {
             <div className='menu'> 
                 <nav>
                     <Link to="/">Home</Link>
-                    <Link to="journeys">Journeys</Link>
                     <Link to="stations">Stations</Link>
+                    <Link to="journeys">Journeys</Link>
+                    
                 </nav>
             </div>
             <Hamburger 
@@ -32,8 +33,9 @@ export default function Menu() {
           <div className='menu-mobile'>
             <nav>
                   <Link to="/" onClick={() => {setActive(false)}}>Home</Link>
-                  <Link to="journeys" onClick={() => {setActive(false)}}>Journeys</Link>
                   <Link to="stations" onClick={() => {setActive(false)}}>Stations</Link>
+                  <Link to="journeys" onClick={() => {setActive(false)}}>Journeys</Link>
+                  
             </nav>
           </div>
         </div>  

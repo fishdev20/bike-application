@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
 import { fetchData } from '../data/fetchData';
 import TableData from './TableData';
@@ -16,10 +16,10 @@ export default function Stations() {
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
 
-    const stationsUrl = `http://localhost:9000/api/stations`
-    useEffect(() => {
-        fetchData(setStations,stationsUrl);
-    },[])
+    // const stationsUrl = `http://localhost:9000/api/stations`
+    // useEffect(() => {
+    //     fetchData(setStations,stationsUrl);
+    // },[])
 
     const showModal = () => {
       setVisible(true);
