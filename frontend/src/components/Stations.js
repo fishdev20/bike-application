@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
-import { fetchData } from '../data/fetchData';
 import TableData from './TableData';
 
 import '../styles/stations.scss'

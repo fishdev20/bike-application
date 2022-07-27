@@ -1,15 +1,16 @@
+/* eslint-disable default-case */
 import React, { useEffect, useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
 import { fetchData } from '../data/fetchData';
 import TableData from './TableData';
 
 import '../styles/stations.scss'
-import { Button, Input, Space } from 'antd';
+import { Button, Form, Input, Space, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import ModalCustom from './ModalCustom';
 
-
+const { Option } = Select;
 export default function Journeys() {
     const [journeys, setJourneys] = useGlobal('journeys');
 
@@ -180,7 +181,6 @@ export default function Journeys() {
         dataIndex: 'duration',
       }
     ];
-    console.log(journeys)
     const tableData = journeys.map((journey,index) => ({
       key: index,
       journeys: index + 1,
@@ -190,6 +190,58 @@ export default function Journeys() {
       duration: `${journey.duration} minutes`,
   }))
 
+  console.log(journeys)
+
+  const layout = {
+    labelCol: {
+      span: 8,
+    },
+    wrapperCol: {
+      span: 16,
+    },
+  };
+  const tailLayout = {
+    wrapperCol: {
+      offset: 8,
+      span: 16,
+    },
+  };
+  const [form] = Form.useForm();
+  const onGenderChange = (value) => {
+    switch (value) {
+      case 'male':
+        form.setFieldsValue({
+          note: 'Hi, man!',
+        });
+        return;
+
+      case 'female':
+        form.setFieldsValue({
+          note: 'Hi, lady!',
+        });
+        return;
+
+      case 'other':
+        form.setFieldsValue({
+          note: 'Hi there!',
+        });
+    }
+  };
+
+  const onFinish = (values) => {
+    console.log(values);
+  };
+
+  const onReset = () => {
+    form.resetFields();
+  };
+
+  const onFill = () => {
+    form.setFieldsValue({
+      note: 'Hello world!',
+      gender: 'male',
+    });
+  };
   return (
     <div className='table-container'>
       <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
@@ -197,7 +249,7 @@ export default function Journeys() {
           onClick={showModal}
           className='btn-add'
         >
-          Add new station
+          Add new journey
         </Button>
       </div>
       
@@ -207,7 +259,58 @@ export default function Journeys() {
         handleCancel={handleCancel}
         handleOk={handleOk}
       >
-        
+        <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
+          <Form.Item
+            name="note"
+            label="Note"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="gender"
+            label="Gender"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select a option and change input text above"
+              onChange={onGenderChange}
+              allowClear
+            >
+              <Option value="male">male</Option>
+              <Option value="female">female</Option>
+              <Option value="other">other</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            noStyle
+            shouldUpdate={(prevValues, currentValues) => prevValues.gender !== currentValues.gender}
+          >
+            {({ getFieldValue }) =>
+              getFieldValue('gender') === 'other' ? (
+                <Form.Item
+                  name="customizeGender"
+                  label="Customize Gender"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              ) : null
+            }
+          </Form.Item>
+        </Form>
       </ModalCustom>
       <TableData columns={columns} tableData={tableData}/>
     </div>

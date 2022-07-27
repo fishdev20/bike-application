@@ -9,9 +9,12 @@ import EnvironmentTwoTone from '@ant-design/icons/EnvironmentTwoTone'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { fetchAddress } from '../data/fetchData';
 
 export default function ExpandData({stationId}) {
     const [stationInfo,setStationInfo] = useState({})
+    const [address, setAddress] = useState('')
+
     useEffect(() => {
         fetchStationInfo(stationId)
     },[])
@@ -26,6 +29,10 @@ export default function ExpandData({stationId}) {
     }
     const position = [parseFloat(stationInfo.y), parseFloat(stationInfo.x)]
 
+    useEffect(() => {
+      const url = `https://api.digitransit.fi/geocoding/v1/reverse?point.lat=${position[0]}&point.lon=${position[1]}&size=1"`
+      fetchAddress(setAddress,url)
+    },[position[0], position[1]])
   return (
     <div>
         {!Boolean(stationInfo.name) ? 
@@ -44,9 +51,9 @@ export default function ExpandData({stationId}) {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={position} icon={L.icon({ iconUrl: "/images/marker-icon.png" })}>
+                <Marker position={position} icon={L.icon({ iconUrl: "/images/hsllogo.png", iconSize: [20,20] })}>
                 <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
+                    {address?.features?.[0].properties.label}
                 </Popup>
                 </Marker>
               </MapContainer>

@@ -9,7 +9,7 @@ export default function ModalCustom(props) {
     <Modal
         className='modal'
         visible={visible}
-        title="Title"
+        title="New Journey"
         onOk={handleOk}
         onCancel={handleCancel}
         footer={[

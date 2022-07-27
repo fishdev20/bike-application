@@ -49,6 +49,8 @@ const Home = ({active, mode}) => {
 
 
     
+
+    
   }, [tl])
 
   const handleClick = () => {

@@ -19,4 +19,7 @@
 .leaflet-container {
     width: 100wh; 
     height: 100vh;
+    img {
+        max-width: 20px !important;
+    }
   }

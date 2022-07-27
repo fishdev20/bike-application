@@ -20,4 +20,13 @@ export async function fetchJourneysByStationName(setState, url) {
     }
 }
 
+export async function fetchAddress(setState, url) {
+    try {
+        const response = await axios.get(url)
+        setState(response.data)
+    } catch (e) {
+        throw new Error(e)
+    }
+}
+
 

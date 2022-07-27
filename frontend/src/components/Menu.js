@@ -5,10 +5,7 @@ import { Link } from 'react-router-dom';
 import { Twirl  as Hamburger } from 'hamburger-react'
 
 export default function Menu() {
-
   const [active, setActive] = useState(false)
-
-  console.log(active)
 
   const activeStyle = active ? 'active' : ''
   return (

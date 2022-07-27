@@ -1,14 +1,6 @@
-import { Button, Input, Space, Table } from 'antd';
-import React, { useRef, useState } from 'react';
-import { SearchOutlined } from '@ant-design/icons';
-import Highlighter from 'react-highlight-words';
-
-import '../styles/stations.scss'
-
-
-
-
-
+import { Table } from 'antd';
+import React from 'react';
+;
 
 const defaultFooter = () => 'Here is footer';
 
