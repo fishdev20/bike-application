@@ -30,3 +30,28 @@ export async function fetchAddress(setState, url) {
 }
 
 
+ export async function getStationAndId(setList) {
+
+    const url = "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql";
+    const QUERY = `
+    {
+      bikeRentalStations {
+        name
+        stationId
+      }
+    }
+  `;
+    fetch(url, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+        query: QUERY
+        })
+    })
+        .then((response) => response.json())
+        .then((data) => setList(data.data));
+    
+}
+

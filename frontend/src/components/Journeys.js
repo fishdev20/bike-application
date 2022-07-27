@@ -1,7 +1,7 @@
 /* eslint-disable default-case */
 import React, { useEffect, useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
-import { fetchData } from '../data/fetchData';
+import { fetchData, getStationAndId } from '../data/fetchData';
 import TableData from './TableData';
 
 import '../styles/stations.scss'
@@ -10,9 +10,30 @@ import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import ModalCustom from './ModalCustom';
 
-const { Option } = Select;
 export default function Journeys() {
     const [journeys, setJourneys] = useGlobal('journeys');
+    const [listStation, setListStation] = useState([])
+    const [departureName,setDepartureName] = useState('')
+    const [departureId,setDepartureId] = useState('')
+    const [returnName,setReturnName] = useState('')
+    const [returnId,setReturnId] = useState('')
+    const [distance,setDistance] = useState(null)
+    const [duration,setDuration] = useState(null)
+
+    const [stationData, setStationData] = useState({
+      departure: 'departureName',
+      departureId: 'departureId',
+      return: 'returnName',
+      returnId: 'returnId',
+      distance: null,
+      duration:  null
+    })
+
+    useEffect(() => {
+      getStationAndId(setListStation)
+      console.log(listStation)
+    },[])
+
 
     // const journeyUrl = `http://localhost:9000/api/journeys`
     // useEffect(() => {
@@ -43,6 +64,7 @@ export default function Journeys() {
     const [searchedColumn, setSearchedColumn] = useState('');
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
+
     const searchInput = useRef(null);
 
 
@@ -190,58 +212,23 @@ export default function Journeys() {
       duration: `${journey.duration} minutes`,
   }))
 
-  console.log(journeys)
-
-  const layout = {
-    labelCol: {
-      span: 8,
-    },
-    wrapperCol: {
-      span: 16,
-    },
-  };
-  const tailLayout = {
-    wrapperCol: {
-      offset: 8,
-      span: 16,
-    },
-  };
+  
   const [form] = Form.useForm();
-  const onGenderChange = (value) => {
-    switch (value) {
-      case 'male':
-        form.setFieldsValue({
-          note: 'Hi, man!',
-        });
-        return;
-
-      case 'female':
-        form.setFieldsValue({
-          note: 'Hi, lady!',
-        });
-        return;
-
-      case 'other':
-        form.setFieldsValue({
-          note: 'Hi there!',
-        });
-    }
-  };
-
+  
   const onFinish = (values) => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setVisible(false);
+    }, 2000);
     console.log(values);
-  };
-
-  const onReset = () => {
+    
+    setStationData(values)
     form.resetFields();
-  };
 
-  const onFill = () => {
-    form.setFieldsValue({
-      note: 'Hello world!',
-      gender: 'male',
-    });
+
   };
+  console.log(form.getFieldInstance('departure'))
   return (
     <div className='table-container'>
       <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
@@ -257,58 +244,79 @@ export default function Journeys() {
         visible={visible}
         loading={loading}
         handleCancel={handleCancel}
-        handleOk={handleOk}
+        handleOk={onFinish}
       >
-        <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
-          <Form.Item
-            name="note"
-            label="Note"
+        <Form layout='vertical' form={form} name="control-hooks" onFinish={onFinish} onFieldsChange={(value) => {console.log(value)}}>
+          <Form.Item 
+            name="departure"
+            label="Departure Station"
             rules={[
               {
                 required: true,
               },
             ]}
           >
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
-            name="gender"
-            label="Gender"
+            name="departureId"
+            label="Departure Station Id"
             rules={[
               {
                 required: true,
               },
             ]}
           >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onGenderChange}
-              allowClear
-            >
-              <Option value="male">male</Option>
-              <Option value="female">female</Option>
-              <Option value="other">other</Option>
-            </Select>
+            <Input/>
           </Form.Item>
           <Form.Item
-            noStyle
-            shouldUpdate={(prevValues, currentValues) => prevValues.gender !== currentValues.gender}
+            name="return"
+            label="Return Station"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
           >
-            {({ getFieldValue }) =>
-              getFieldValue('gender') === 'other' ? (
-                <Form.Item
-                  name="customizeGender"
-                  label="Customize Gender"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              ) : null
-            }
+            <Input/>
+          </Form.Item>
+          <Form.Item
+            name="returnId"
+            label="Return Station Id"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item
+            name="distance"
+            label="Distance"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item
+            name="duration"
+            label="Duration"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item>
+            <Button className='btn-submit' type="primary" htmlType="submit" loading={loading}>
+              Add journey
+            </Button>
           </Form.Item>
         </Form>
       </ModalCustom>

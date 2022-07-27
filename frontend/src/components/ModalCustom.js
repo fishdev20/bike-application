@@ -12,14 +12,15 @@ export default function ModalCustom(props) {
         title="New Journey"
         onOk={handleOk}
         onCancel={handleCancel}
-        footer={[
-          <Button key="back" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button className='btn-submit' key="submit" type="primary" loading={loading} onClick={handleOk}>
-            Submit
-          </Button>,
-        ]}
+        // footer={[
+        //   <Button key="back" onClick={handleCancel}>
+        //     Cancel
+        //   </Button>,
+        //   <Button className='btn-submit' key="submit" type="primary" loading={loading} onClick={handleOk} htmlType="submit">
+        //     Submit
+        //   </Button>,
+        // ]}
+        footer={null}
       >
         {children}
 
