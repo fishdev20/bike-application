@@ -77,6 +77,11 @@ app.get('/api/stations/:id', async (req, res) => {
   res.json(stationInfo)
 })
 
+app.post('/api/addStation', (req, res) => {
+  console.log(req.body)
+  // const doc = new Stations({})
+})
+
 //JOURNEYS ENDPOINT
 app.get('/api/journeys', async (req, res) => {
   try {
@@ -97,6 +102,24 @@ app.get('/api/journeys/:id', (req, res) => {
   })
 })
   
+
+app.post('/api/addJourneys', (req, res) => {
+  if (!req.body.departure) {
+    res.status(400).send({ message: "Content can not be empty!" });
+    return;
+  }
+  const newJourney = new Journeys({
+    departureAt: req.body.departureAt,
+    returnAt: req.body.returnAt,
+    departureStationId: req.body.departureId,
+    departureStationName: req.body.departure,
+    returnStationId: req.body.returnId,
+    returnStationName: req.body.return,
+    distance: req.body.distance,
+    duration: req.body.duration,
+  })
+  newJourney.save()
+})
   
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

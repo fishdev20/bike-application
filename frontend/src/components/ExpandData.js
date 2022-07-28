@@ -31,7 +31,7 @@ export default function ExpandData({stationId}) {
 
     useEffect(() => {
       const url = `https://api.digitransit.fi/geocoding/v1/reverse?point.lat=${position[0]}&point.lon=${position[1]}&size=1"`
-      fetchAddress(setAddress,url)
+      position[0] && fetchAddress(setAddress,url)
     },[position[0], position[1]])
   return (
     <div>

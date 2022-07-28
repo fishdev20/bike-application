@@ -1,6 +1,4 @@
 import { default as axios } from "axios"
-import React from 'react';
-import {useGlobal} from 'reactn';
 
 export async function fetchData(setState, url) {
     try {
@@ -51,7 +49,19 @@ export async function fetchAddress(setState, url) {
         })
     })
         .then((response) => response.json())
-        .then((data) => setList(data.data));
+        .then((data) => setList(data.data.bikeRentalStations));
     
+}
+
+
+export async function addJourneys(body) {
+    const url = `http://localhost:9000/api/addJourneys`
+    fetch ( url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    })
 }
 

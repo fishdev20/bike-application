@@ -149,13 +149,13 @@
           .hero-image {
             position: absolute;
             overflow: hidden;
-            &.girl {
+            &.second {
               top: 0px;
               right: 0px;
               width: 45%;
               height: 50%;
             }
-            &.boy {
+            &.first {
               bottom: 0;
               left: 0px;
               width: 52%;
@@ -192,13 +192,13 @@
         max-height: 30vh;
         height: 100% !important;
         top: 0 !important;
-        &.girl {
+        &.second {
           top: 0 !important;
           right: 0px;
           width: 45% !important;
           height: 100% !important;
         }
-        &.boy {
+        &.first {
           top: 170px !important;
           left: 0px;
           width: 45% !important;

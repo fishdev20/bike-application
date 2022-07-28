@@ -2,47 +2,50 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
 import { fetchData, getStationAndId } from '../data/fetchData';
-import TableData from './TableData';
-
+import TableData from '../components/TableData';
 import '../styles/stations.scss'
-import { Button, Form, Input, Space, Select } from 'antd';
+import { Button, Form, Input, Space, AutoComplete, DatePicker } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
-import ModalCustom from './ModalCustom';
+import ModalCustom from '../components/ModalCustom';
+import { v4 as uuid } from 'uuid';
+import { addJourneys } from './../data/fetchData';
+
+const { Option } = AutoComplete; 
 
 export default function Journeys() {
     const [journeys, setJourneys] = useGlobal('journeys');
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
     const [listStation, setListStation] = useState([])
-    const [departureName,setDepartureName] = useState('')
-    const [departureId,setDepartureId] = useState('')
-    const [returnName,setReturnName] = useState('')
-    const [returnId,setReturnId] = useState('')
-    const [distance,setDistance] = useState(null)
-    const [duration,setDuration] = useState(null)
-
+    const [resultStation, setResultStation] = useState([])
     const [stationData, setStationData] = useState({
-      departure: 'departureName',
-      departureId: 'departureId',
-      return: 'returnName',
-      returnId: 'returnId',
+      departure: '',
+      departureId: '',
+      departureAt: '',
+      return: '',
+      returnId: '',
+      returnAt: '',
       distance: null,
-      duration:  null
+      duration:  null,
+      id: uuid()
+
     })
+    const journeyUrl = `http://localhost:9000/api/journeys`
+    const searchInput = useRef(null);
 
     useEffect(() => {
       getStationAndId(setListStation)
-      console.log(listStation)
+      
     },[])
-
-
-    // const journeyUrl = `http://localhost:9000/api/journeys`
-    // useEffect(() => {
-    //     fetchData(setJourneys,journeyUrl);
-    // },[])
-
+    useEffect(() => {
+      stationData.departure !== '' && addJourneys(stationData)
+      stationData.departure !== '' && fetchData(setJourneys,journeyUrl);
+    },[stationData])
 
     
-
     // console.log(stations)
     // const obj = stations.reduce((x,y)=>{
     //     if(x[y.departureStationName]) {
@@ -60,28 +63,19 @@ export default function Journeys() {
     // console.log(sort.map(e => ({ name: e[0], amount: e[1] }))
     // )
 
-    const [searchText, setSearchText] = useState('');
-    const [searchedColumn, setSearchedColumn] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [visible, setVisible] = useState(false);
-
-    const searchInput = useRef(null);
+    
 
 
-    const showModal = () => {
-      setVisible(true);
-    };
-    const handleOk = () => {
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        setVisible(false);
-      }, 3000);
-    };
 
-    const handleCancel = () => {
-      setVisible(false);
-    };
+
+  const showModal = () => {
+    setVisible(true);
+  };
+  
+  const handleCancel = () => {
+    setVisible(false);
+    form.resetFields();
+  };
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -179,37 +173,47 @@ export default function Journeys() {
       ),
   });
 
-    const columns = [
-      {
-        title: 'Journeys',
-        dataIndex: 'journeys',
-      },
-      {
-        title: 'Departure station',
-        dataIndex: 'departureStationName',
-        ...getColumnSearchProps('departureStationName', 'station')
-      },
-      {
-        title: 'Return station',
-        dataIndex: 'returnStationName',
-        ...getColumnSearchProps('returnStationName', 'station')
-      },
-      {
-        title: 'Distance',
-        dataIndex: 'distance',
-      },
-      {
-        title: 'Duration',
-        dataIndex: 'duration',
-      }
-    ];
-    const tableData = journeys.map((journey,index) => ({
-      key: index,
-      journeys: index + 1,
-      departureStationName: journey.departureStationName,
-      returnStationName: journey.returnStationName,
-      distance: `${journey.distance} km`,
-      duration: `${journey.duration} minutes`,
+  const columns = [
+    {
+      title: 'Journeys',
+      dataIndex: 'journeys',
+    },
+    {
+      title: 'Departure station',
+      dataIndex: 'departureStationName',
+      ...getColumnSearchProps('departureStationName', 'station')
+    },
+    {
+      title: 'Departure time',
+      dataIndex: 'departureAt',
+    },
+    {
+      title: 'Return station',
+      dataIndex: 'returnStationName',
+      ...getColumnSearchProps('returnStationName', 'station')
+    },
+    {
+      title: 'Return time',
+      dataIndex: 'returnAt',
+    },
+    {
+      title: 'Distance',
+      dataIndex: 'distance',
+    },
+    {
+      title: 'Duration',
+      dataIndex: 'duration',
+    }
+  ];
+  const tableData = journeys.map((journey,index) => ({
+    key: index,
+    journeys: index + 1,
+    departureStationName: journey.departureStationName,
+    departureAt: journey.departureAt,
+    returnStationName: journey.returnStationName,
+    returnAt: journey.returnAt,
+    distance: `${journey.distance} km`,
+    duration: `${journey.duration} minutes`,
   }))
 
   
@@ -221,14 +225,48 @@ export default function Journeys() {
       setLoading(false);
       setVisible(false);
     }, 2000);
-    console.log(values);
+    const saveStation = {
+      departure: values.departure,
+      departureId: values.departureId,
+      departureAt: values.departure_time.format(`YYYY-MM-DDTHH:mm:ss`),
+      return: values.return,
+      returnId: values.returnId,
+      returnAt: values.return_time.format(`YYYY-MM-DDTHH:mm:ss`),
+      distance: values.distance,
+      duration:  values.duration,
+      id: uuid()
+    }  
+    setStationData(saveStation)
     
-    setStationData(values)
     form.resetFields();
-
-
   };
-  console.log(form.getFieldInstance('departure'))
+
+  const onFieldsChange = (value) => {
+    if (value[0].name[0] === 'departure') {
+      if(value[0].value) {
+        const optionList = listStation?.filter((station) => station.name.toLowerCase().indexOf(value[0].value) === 0 || station.name.indexOf(value[0].value) === 0)
+        const departureId = optionList?.[0].stationId
+        setResultStation(optionList);
+        form.setFieldsValue({
+          departureId: departureId
+        })
+      }else {
+        setResultStation([]);
+      }
+    } else if(value[0].name[0] === 'return') {
+      if(value[0].value) {
+        const optionList = listStation?.filter((station) => station.name.toLowerCase().indexOf(value[0].value) === 0 || station.name.indexOf(value[0].value) === 0)
+        const returnId = optionList?.[0].stationId
+        setResultStation(optionList);
+        form.setFieldsValue({
+          returnId: returnId
+        })
+      }else {
+        setResultStation([]);
+      }
+    }
+
+  }
   return (
     <div className='table-container'>
       <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
@@ -246,7 +284,7 @@ export default function Journeys() {
         handleCancel={handleCancel}
         handleOk={onFinish}
       >
-        <Form layout='vertical' form={form} name="control-hooks" onFinish={onFinish} onFieldsChange={(value) => {console.log(value)}}>
+        <Form layout='vertical' form={form} name="control-hooks" onFinish={onFinish} onFieldsChange={onFieldsChange}>
           <Form.Item 
             name="departure"
             label="Departure Station"
@@ -256,7 +294,13 @@ export default function Journeys() {
               },
             ]}
           >
-            <Input/>
+            <AutoComplete>
+              {resultStation?.map((station, idx) => (
+                <Option key={idx} value={station.name}>
+                  {station.name}
+                </Option>
+              ))}
+            </AutoComplete>
           </Form.Item>
           <Form.Item
             name="departureId"
@@ -269,6 +313,18 @@ export default function Journeys() {
           >
             <Input/>
           </Form.Item>
+          <Form.Item 
+            name="departure_time" 
+            label="Departure Time"
+            rules={[
+              {
+                required: true,
+                message: 'Please select time!'
+              },
+            ]}
+          >
+            <DatePicker style={{width: '100%'}} showTime format="YYYY-MM-DD HH:mm:ss" />
+          </Form.Item>
           <Form.Item
             name="return"
             label="Return Station"
@@ -278,7 +334,13 @@ export default function Journeys() {
               },
             ]}
           >
-            <Input/>
+            <AutoComplete>
+              {resultStation?.map((station, idx) => (
+                <Option key={idx} value={station.name}>
+                  {station.name}
+                </Option>
+              ))}
+            </AutoComplete>
           </Form.Item>
           <Form.Item
             name="returnId"
@@ -290,6 +352,18 @@ export default function Journeys() {
             ]}
           >
             <Input/>
+          </Form.Item>
+          <Form.Item 
+            name="return_time" 
+            label="Return Time"
+            rules={[
+              {
+                required: true,
+                message: 'Please select time!'
+              },
+            ]}
+          >
+            <DatePicker style={{width: '100%'}} showTime format="YYYY-MM-DD HH:mm:ss" />
           </Form.Item>
           <Form.Item
             name="distance"

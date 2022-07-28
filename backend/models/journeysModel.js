@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 const journeysSchema = new mongoose.Schema({
-  departureTime: String,
-  returnTime: String,
+  departureAt: String,
+  returnAt: String,
   departureStationId: String,
   departureStationName: String,
   returnStationId: String,

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import './App.scss';
-import Home from './components/Home';
+import Home from './pages/Home';
 import Menu from './components/Menu';
-import Stations from './components/Stations';
+import Stations from './pages/Stations';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Journeys from './components/Journeys';
+import Journeys from './pages/Journeys';
 import { useGlobal } from 'reactn';
 import { fetchData } from './data/fetchData';
 function App() {
