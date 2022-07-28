@@ -10,6 +10,7 @@ import Highlighter from 'react-highlight-words';
 import ModalCustom from '../components/ModalCustom';
 import { v4 as uuid } from 'uuid';
 import { addJourneys } from './../data/fetchData';
+import { ToastContainer } from 'react-toastify';
 
 const { Option } = AutoComplete; 
 
@@ -44,6 +45,7 @@ export default function Journeys() {
       stationData.departure !== '' && addJourneys(stationData)
       stationData.departure !== '' && fetchData(setJourneys,journeyUrl);
     },[stationData])
+    console.log(journeys)
 
     
     // console.log(stations)
@@ -205,7 +207,7 @@ export default function Journeys() {
       dataIndex: 'duration',
     }
   ];
-  const tableData = journeys.map((journey,index) => ({
+  const tableData = journeys.reverse().map((journey,index) => ({
     key: index,
     journeys: index + 1,
     departureStationName: journey.departureStationName,
@@ -394,7 +396,8 @@ export default function Journeys() {
           </Form.Item>
         </Form>
       </ModalCustom>
-      <TableData columns={columns} tableData={tableData}/>
+      <TableData columns={columns} tableData={tableData.reverse()}/>
+      <ToastContainer />
     </div>
   )
 }
