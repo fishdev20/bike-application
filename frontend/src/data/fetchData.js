@@ -3,7 +3,6 @@ import { default as axios } from "axios"
 export async function fetchData(setState, url) {
     try {
         const response = await axios.get(url)
-        console.log(response.data)
         setState(response.data)
     } catch (e) {
         throw new Error(e)

@@ -7,7 +7,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Journeys from './pages/Journeys';
 import { useGlobal } from 'reactn';
 import { fetchData } from './data/fetchData';
-import { ToastContainer } from 'react-toastify';
 function App() {
   const [stations, setStations] = useGlobal('stations');
   const [journeys, setJourneys] = useGlobal('journeys');

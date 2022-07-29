@@ -1,27 +1,22 @@
-/* eslint-disable default-case */
 import React, { useEffect, useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
-import { fetchData, getStationAndId } from '../data/fetchData';
+import { fetchData } from '../data/fetchData';
 import TableData from '../components/TableData';
 import '../styles/stations.scss'
-import { Button, Form, Input, Space, AutoComplete, DatePicker } from 'antd';
+import { Button, Input, Space} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
-import ModalCustom from '../components/ModalCustom';
 import { v4 as uuid } from 'uuid';
 import { addJourneys } from './../data/fetchData';
-import { ToastContainer } from 'react-toastify';
+import moment from 'moment';
+import JourneyAddForm from '../components/JourneyAddForm';
 
-const { Option } = AutoComplete; 
 
 export default function Journeys() {
     const [journeys, setJourneys] = useGlobal('journeys');
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
-    const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
-    const [listStation, setListStation] = useState([])
-    const [resultStation, setResultStation] = useState([])
     const [stationData, setStationData] = useState({
       departure: '',
       departureId: '',
@@ -38,14 +33,9 @@ export default function Journeys() {
     const searchInput = useRef(null);
 
     useEffect(() => {
-      getStationAndId(setListStation)
-      
-    },[])
-    useEffect(() => {
       stationData.departure !== '' && addJourneys(stationData)
       stationData.departure !== '' && fetchData(setJourneys,journeyUrl);
     },[stationData])
-    console.log(journeys)
 
     
     // console.log(stations)
@@ -65,18 +55,8 @@ export default function Journeys() {
     // console.log(sort.map(e => ({ name: e[0], amount: e[1] }))
     // )
 
-    
-
-
-
-
   const showModal = () => {
     setVisible(true);
-  };
-  
-  const handleCancel = () => {
-    setVisible(false);
-    form.resetFields();
   };
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -188,6 +168,7 @@ export default function Journeys() {
     {
       title: 'Departure time',
       dataIndex: 'departureAt',
+      sorter: (a, b) =>  moment(b.departureAt) - moment(a.departureAt),
     },
     {
       title: 'Return station',
@@ -197,78 +178,30 @@ export default function Journeys() {
     {
       title: 'Return time',
       dataIndex: 'returnAt',
+      sorter: (a, b) =>  moment(b.returnAt) - moment(a.returnAt),
     },
     {
-      title: 'Distance',
+      title: 'Distance (km)',
       dataIndex: 'distance',
     },
     {
-      title: 'Duration',
+      title: 'Duration (minutes)',
       dataIndex: 'duration',
+      sorter: (a, b) => b.duration - a.duration
     }
   ];
   const tableData = journeys.reverse().map((journey,index) => ({
     key: index,
     journeys: index + 1,
     departureStationName: journey.departureStationName,
-    departureAt: journey.departureAt,
+    departureAt: moment(journey.departureAt).format('YYYY/MM/DD HH:m:s'),
     returnStationName: journey.returnStationName,
-    returnAt: journey.returnAt,
-    distance: `${journey.distance} km`,
-    duration: `${journey.duration} minutes`,
+    returnAt: moment(journey.returnAt).format('YYYY/MM/DD HH:m:s'),
+    distance: journey.distance,
+    duration: journey.duration,
   }))
 
   
-  const [form] = Form.useForm();
-  
-  const onFinish = (values) => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-    }, 2000);
-    const saveStation = {
-      departure: values.departure,
-      departureId: values.departureId,
-      departureAt: values.departure_time.format(`YYYY-MM-DDTHH:mm:ss`),
-      return: values.return,
-      returnId: values.returnId,
-      returnAt: values.return_time.format(`YYYY-MM-DDTHH:mm:ss`),
-      distance: values.distance,
-      duration:  values.duration,
-      id: uuid()
-    }  
-    setStationData(saveStation)
-    
-    form.resetFields();
-  };
-
-  const onFieldsChange = (value) => {
-    if (value[0].name[0] === 'departure') {
-      if(value[0].value) {
-        const optionList = listStation?.filter((station) => station.name.toLowerCase().indexOf(value[0].value) === 0 || station.name.indexOf(value[0].value) === 0)
-        const departureId = optionList?.[0].stationId
-        setResultStation(optionList);
-        form.setFieldsValue({
-          departureId: departureId
-        })
-      }else {
-        setResultStation([]);
-      }
-    } else if(value[0].name[0] === 'return') {
-      if(value[0].value) {
-        const optionList = listStation?.filter((station) => station.name.toLowerCase().indexOf(value[0].value) === 0 || station.name.indexOf(value[0].value) === 0)
-        const returnId = optionList?.[0].stationId
-        setResultStation(optionList);
-        form.setFieldsValue({
-          returnId: returnId
-        })
-      }else {
-        setResultStation([]);
-      }
-    }
-
-  }
   return (
     <div className='table-container'>
       <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
@@ -279,125 +212,13 @@ export default function Journeys() {
           Add new journey
         </Button>
       </div>
-      
-      <ModalCustom
-        visible={visible}
-        loading={loading}
-        handleCancel={handleCancel}
-        handleOk={onFinish}
-      >
-        <Form layout='vertical' form={form} name="control-hooks" onFinish={onFinish} onFieldsChange={onFieldsChange}>
-          <Form.Item 
-            name="departure"
-            label="Departure Station"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <AutoComplete>
-              {resultStation?.map((station, idx) => (
-                <Option key={idx} value={station.name}>
-                  {station.name}
-                </Option>
-              ))}
-            </AutoComplete>
-          </Form.Item>
-          <Form.Item
-            name="departureId"
-            label="Departure Station Id"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item 
-            name="departure_time" 
-            label="Departure Time"
-            rules={[
-              {
-                required: true,
-                message: 'Please select time!'
-              },
-            ]}
-          >
-            <DatePicker style={{width: '100%'}} showTime format="YYYY-MM-DD HH:mm:ss" />
-          </Form.Item>
-          <Form.Item
-            name="return"
-            label="Return Station"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <AutoComplete>
-              {resultStation?.map((station, idx) => (
-                <Option key={idx} value={station.name}>
-                  {station.name}
-                </Option>
-              ))}
-            </AutoComplete>
-          </Form.Item>
-          <Form.Item
-            name="returnId"
-            label="Return Station Id"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item 
-            name="return_time" 
-            label="Return Time"
-            rules={[
-              {
-                required: true,
-                message: 'Please select time!'
-              },
-            ]}
-          >
-            <DatePicker style={{width: '100%'}} showTime format="YYYY-MM-DD HH:mm:ss" />
-          </Form.Item>
-          <Form.Item
-            name="distance"
-            label="Distance"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            name="duration"
-            label="Duration"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item>
-            <Button className='btn-submit' type="primary" htmlType="submit" loading={loading}>
-              Add journey
-            </Button>
-          </Form.Item>
-        </Form>
-      </ModalCustom>
+        <JourneyAddForm
+          stationData={stationData} 
+          setStationData={setStationData}
+          visible={visible}
+          setVisible={setVisible}
+        />
       <TableData columns={columns} tableData={tableData.reverse()}/>
-      <ToastContainer />
     </div>
   )
 }
