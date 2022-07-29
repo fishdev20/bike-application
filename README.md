@@ -71,19 +71,6 @@ An excercise of Solita Dev Academic 2022
 [leaflet](https://react-leaflet.js.org/)
 
 
-## Run on local
-
-To run client 
-
-```bash
-  npm run frontend
-```
-
-To run server 
-
-```bash
-  npm run server
-```
 
 
 ## Screenshots
