@@ -50,25 +50,25 @@ An excercise of Solita Dev Academic 2022
 
 ## Tech Stack
 
-**Client:** React, Reactn, Antd, Axios, Gsap
+- **Client:** React, Reactn, Antd, Axios, Gsap
 
-**Server:** Node, Express, Mongodb
+- **Server:** Node, Express, Mongodb
 
 
 
 ## Documentation
 
-[Ant Design](https://ant.design/)
+- [Ant Design](https://ant.design/)
 
-[Greensock](https://greensock.com/gsap/)
+- [Greensock](https://greensock.com/gsap/)
 
-[Axios](https://www.npmjs.com/package/axios)
+- [Axios](https://www.npmjs.com/package/axios)
 
-[react-router-dom](https://reactrouter.com/docs/en/v6/getting-started/tutorial)
+- [react-router-dom](https://reactrouter.com/docs/en/v6/getting-started/tutorial)
 
-[reactn](https://www.npmjs.com/package/reactn)
+- [reactn](https://www.npmjs.com/package/reactn)
 
-[leaflet](https://react-leaflet.js.org/)
+- [leaflet](https://react-leaflet.js.org/)
 
 
 
