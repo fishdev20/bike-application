@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 function connectDB(){
-    let url = 'mongodb+srv://minhnguyen:qwerty2002@cluster0.oozqx.mongodb.net/bike-app?retryWrites=true&w=majority'
+    let url = process.env.MONGOURL
     mongoose.connect(
         url, 
         {useUnifiedTopology: true , useNewUrlParser: true}

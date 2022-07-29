@@ -1,3 +1,4 @@
+const dotenv = require('dotenv').config({ path: '../backend/.env' })
 const express = require('express')
 const cors = require('cors')
 const dbConnection = require ('./db');
@@ -7,10 +8,12 @@ const Stations = require('./models/stationsModel')
 const importStations = require('./data/data');
 const Journeys = require('./models/journeysModel');
 
+
 const app = express()
 app.use(express.json());
 app.use(cors())
 
+const url = process.env.PORT
 
 const PORT = process.env.PORT || 9000;
 

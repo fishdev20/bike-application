@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fishdev20/bike-application/issues"
+  },
+  "homepage": "https://github.com/fishdev20/bike-application#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "create-react-app": "^5.0.1",
+    "csv-parser": "^3.0.0",
+    "csvtojson": "^2.0.10",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongodb": "^4.8.0",
+    "mongoose": "^6.4.5",
+    "nodemon": "^2.0.19",
+    "react-toastify": "^9.0.7"
+  },
+  "description": ""
+}
