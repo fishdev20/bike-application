@@ -29,6 +29,7 @@
     "reactn": "^2.2.7",
     "sass": "^1.53.0",
     "uuidv4": "^6.2.13",
+    "victory": "^36.5.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

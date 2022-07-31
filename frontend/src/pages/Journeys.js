@@ -38,22 +38,22 @@ export default function Journeys() {
     },[stationData])
 
     
-    // console.log(stations)
-    // const obj = stations.reduce((x,y)=>{
-    //     if(x[y.departureStationName]) {
-    //         x[y.departureStationName]++;
-    //         return x;
-    //     } else {
-    //         let z={};
-    //         z[y.departureStationName]=1;
-    //         return Object.assign(x,z);
-    //     }},{})
-    // console.log(obj)
+    console.log(journeys)
+    const obj = journeys.reduce((x,y)=>{
+        if(x[y.departureStationName]) {
+            x[y.departureStationName]++;
+            return x;
+        } else {
+            let z={};
+            z[y.departureStationName]=1;
+            return Object.assign(x,z);
+        }},{})
+    console.log(obj)
 
-    // const sort = Object.entries(obj).map(value => value)
-    // console.log(sort)
-    // console.log(sort.map(e => ({ name: e[0], amount: e[1] }))
-    // )
+    const sort = Object.entries(obj).map(value => value)
+    const arr = sort.map(e => ({ name: e[0], amount: e[1] }))
+    const result = arr.sort((a,b) => {return a.amount - b.amount})
+    console.log(result.slice(Math.max(arr.length - 5,0)))
 
   const showModal = () => {
     setVisible(true);
