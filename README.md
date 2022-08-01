@@ -2,6 +2,26 @@
 
 An excercise of Solita Dev Academic 2022
 
+## Installation
+
+Run project in local
+
+#### Backend
+
+```bash
+  cd backend
+  npm install
+  npm run server
+```
+
+#### Frontend
+
+```bash
+  cd frontend
+  npm install
+  npm start
+```
+
 
 
 ## API Reference

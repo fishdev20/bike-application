@@ -96,7 +96,10 @@ export default function Stations() {
               Search
             </Button>
             <Button
-              onClick={() => clearFilters && handleReset(clearFilters)}
+              onClick={() => {
+                clearFilters && handleReset(clearFilters)
+                handleSearch(selectedKeys, confirm, dataIndex)
+              }}
               size="small"
               style={{
                 width: 90,

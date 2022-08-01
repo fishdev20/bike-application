@@ -19,7 +19,7 @@ const TableData = ({columns,tableData,expand}) => {
         columns={columns}
         dataSource={tableData}
         expandable={expand ? defaultExpandable : ''}
-        footer={defaultFooter}
+        // footer={defaultFooter}
       />
     </div>
   );
