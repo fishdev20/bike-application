@@ -1,12 +1,15 @@
 # Bike application Helsinki
 
-An excercise of Solita Dev Academic 2022
+An excercise of Solita Dev Academic 2022.
 
 ## Installation
 
 Run project in local
 
 #### Backend
+ *Note: 
+ - .env file will be attached to the application email, Please download and paste it into /backend/ folder.
+ - Please also paste the journeys file as well as station.csv in the project folder.
 
 ```bash
   cd backend
