@@ -1,23 +1,24 @@
 /* eslint-disable default-case */
-import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import '../styles/stations.scss'
+import React, { useEffect, useState } from 'react';
 import { useGlobal } from 'reactn';
+import '../styles/stations.scss';
 
+import EnvironmentTwoTone from '@ant-design/icons/EnvironmentTwoTone';
 import { Col, Row } from 'antd';
-import EnvironmentTwoTone from '@ant-design/icons/EnvironmentTwoTone'
 
 //map implement
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { fetchAddress } from '../data/fetchData';
+import 'leaflet/dist/leaflet.css';
 import { sumBy } from 'lodash';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { fetchAddress } from '../data/fetchData';
 
 export default function ExpandData({stationId}) {
     const [stationInfo,setStationInfo] = useState({})
     const [address, setAddress] = useState('')
     const [journeys] = useGlobal('journeys')
+    const [STATION_URL] = useGlobal('STATION_URL')
 
     useEffect(() => {
         fetchStationInfo(stationId)
@@ -25,7 +26,7 @@ export default function ExpandData({stationId}) {
 
     const fetchStationInfo = async (stationId) => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/stations/${stationId}`)
+            const response = await axios.get(`${STATION_URL}/${stationId}`)
             setStationInfo(response.data)
         } catch (e) {
             throw new Error(e)
@@ -60,8 +61,8 @@ export default function ExpandData({stationId}) {
           <Col md={12} xs={24}>
             <h4>- Total number of journeys starting from the station: <span style={{color: '#007ac9'}}>{stationInfo.journeysStart}</span> journeys</h4>
             <h4>- Total number of journeys ending at the station: <span style={{color: '#007ac9'}}>{stationInfo.journeysEnd}</span> journeys</h4>
-            <h4>- The average distance of a journey starting from the station: {calculateAverageDistance('START')} km</h4>
-            <h4>- The average distance of a journey ending at the station: {calculateAverageDistance('END')} km</h4>
+            <h4>- The average distance of a journey starting from the station: { !isNaN(calculateAverageDistance('START')) ? calculateAverageDistance('START') : 0} km</h4>
+            <h4>- The average distance of a journey ending at the station: {!isNaN(calculateAverageDistance('END')) ? calculateAverageDistance('END') : 0} km</h4>
           </Col>
           <Col md={12} xs={24}>
             <h4> <EnvironmentTwoTone /> Location </h4>

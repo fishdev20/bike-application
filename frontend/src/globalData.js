@@ -1,7 +1,9 @@
 import React, { setGlobal } from 'reactn';
 
 setGlobal({
-    url: 'http://localhost:9000',
+    STATION_URL: 'http://localhost:9000/api/stations',
+    JOURNEYS_URL: 'http://localhost:9000/api/journeys',
+    ADDJOURNEY_URL: '',
     stations: [],
     journeys: [],
     stationInfoList: []

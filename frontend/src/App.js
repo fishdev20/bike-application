@@ -10,13 +10,14 @@ import { fetchData } from './data/fetchData';
 function App() {
   const [stations, setStations] = useGlobal('stations');
   const [journeys, setJourneys] = useGlobal('journeys');
-  const stationsUrl = `http://localhost:9000/api/stations`
-  const journeyUrl = `http://localhost:9000/api/journeys`
+  const [STATION_URL] = useGlobal('STATION_URL')
+  const [JOURNEYS_URL] = useGlobal('JOURNEYS_URL')
 
   useEffect(() => {
-    fetchData(setStations,stationsUrl);
-    fetchData(setJourneys,journeyUrl);
+    fetchData(setStations,STATION_URL);
+    fetchData(setJourneys,JOURNEYS_URL);
   },[])
+  
   return (
     <div className="App">
       <BrowserRouter>

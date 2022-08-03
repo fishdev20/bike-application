@@ -14,6 +14,7 @@ import JourneyAddForm from '../components/JourneyAddForm';
 import MiniTable from '../components/MiniTable';
 
 export default function Journeys() {
+    const [JOURNEYS_URL] = useGlobal('JOURNEYS_URL')
     const [journeys, setJourneys] = useGlobal('journeys');
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -30,12 +31,11 @@ export default function Journeys() {
       id: uuid()
 
     })
-    const journeyUrl = `http://localhost:9000/api/journeys`
     const searchInput = useRef(null);
 
     useEffect(() => {
       stationData.departure !== '' && addJourneys(stationData)
-      stationData.departure !== '' && fetchData(setJourneys,journeyUrl);
+      stationData.departure !== '' && fetchData(setJourneys,JOURNEYS_URL);
     },[stationData])
 
     const topFiveStation = (key) => {

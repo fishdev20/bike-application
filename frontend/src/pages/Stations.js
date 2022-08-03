@@ -2,18 +2,21 @@ import React, { useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
 import TableData from '../components/TableData';
 
-import '../styles/stations.scss'
-import ExpandData from '../components/ExpandData';
-import { Button, Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
+import ExpandData from '../components/ExpandData';
 import ModalCustom from '../components/ModalCustom';
+import '../styles/stations.scss';
 
 
 export default function Stations() {
     const [stations, setStations] = useGlobal('stations');
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
 
     const showModal = () => {
       setVisible(true);
@@ -29,31 +32,7 @@ export default function Stations() {
     const handleCancel = () => {
       setVisible(false);
     };
-
-
     
-
-    // console.log(stations)
-    // const obj = stations.reduce((x,y)=>{
-    //     if(x[y.departureStationName]) {
-    //         x[y.departureStationName]++;
-    //         return x;
-    //     } else {
-    //         let z={};
-    //         z[y.departureStationName]=1;
-    //         return Object.assign(x,z);
-    //     }},{})
-    // console.log(obj)
-
-    // const sort = Object.entries(obj).map(value => value)
-    // console.log(sort)
-    // console.log(sort.map(e => ({ name: e[0], amount: e[1] }))
-    // )
-
-    const [searchText, setSearchText] = useState('');
-    const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef(null);
-
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
       confirm();
       setSearchText(selectedKeys[0]);
