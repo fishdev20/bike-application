@@ -2,6 +2,8 @@ import gsap from 'gsap'
 import React, { useEffect, useRef } from 'react'
 import "../styles/home.scss";
 import { Grid } from '@mui/material';
+import bikeAnimation from "../bikeAnimation.json"
+import Lottie from 'react-lottie'
 
 
 
@@ -10,39 +12,46 @@ const Home = ({active, mode}) => {
     let images = useRef(null)
     let content = useRef(null)
     let tl = gsap.timeline()
+
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true, 
+        animationData: bikeAnimation,
+        rendererSettings: {
+          preserveAspectRatio: 'xMidYMid slice'
+        }
+      };
+
+    
   useEffect(() => {
    
     // Images Vars
     const secondImage = images.current.firstElementChild;
     const firstImage = images.current.lastElementChild;
     const contentP = content.current.children[1];
-    const contentButton = content.current.children[2];
     
 
     //Image animation
-    gsap.to(app.current, {duration: 0.5, autoAlpha: 1, delay: 0});
-      gsap.to(firstImage,{duration: 3, y: -120, opacity: 1, zIndex: 1})
+    gsap.to(app.current, {duration: 1, autoAlpha: 1, delay: 0});
+      gsap.to(firstImage,{duration: 1, y: -120, opacity: 1, zIndex: 1})
       gsap.to(firstImage.firstElementChild, {duration: 3,scale: 1.5,autoAlpha: 1, ease: "power3.easeOut"})
-      gsap.to(secondImage,{duration: 3, y: 50, opacity: 1})
-      gsap.to(secondImage.firstElementChild,{duration: 3,scale: 1.5, ease: "power3.easeOut"})
+      gsap.to(secondImage,{duration: 1, y: 50, opacity: 1})
+      gsap.to(secondImage.firstElementChild,{duration: 1,scale: 1.5, ease: "power3.easeOut"})
 
     tl.to('.hero-content-line', {
         'clipPath': 'polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)', 
         opacity: 1,
         y: 0, 
-        duration: 1
+        duration: 1,
+        ease: "power3.easeOut"
     })
     tl.to( contentP, {
         'clipPath': 'polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)', 
         opacity: 1,
         y: 0, 
-        duration: 1
-    });
-    tl.to( contentButton, {
-        y: -20,
-        ease:'power3.easeOut',
-        opacity: 1,
-        
+        duration: 1,
+        ease: "power3.easeOut"
     });
 
   }, [tl])
@@ -69,8 +78,14 @@ const Home = ({active, mode}) => {
                                     </div>
                                 </h1>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..
+                                    In this service, you can view Bike's stations and bike's journeys in Helsinki, you also can add a new journey yourself in Journeys tab.
                                 </p>
+                                <div className='bike-animation'>
+                                    <Lottie options={defaultOptions}
+                                        height={350}
+                                        width={350}
+                                    />
+                                </div>
 
                                   
                             </div>
