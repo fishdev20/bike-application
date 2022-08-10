@@ -12,15 +12,13 @@
     // color: #fff;
     width: 100%;
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;
     margin: 0 auto;
-    scroll-snap-type: y mandatory;
     
     section {
       padding-top: 80px;
       width: 100%;
       height: 100vh;
-      scroll-snap-align: start;
     }
     .hero-inner {
       display: flex;
