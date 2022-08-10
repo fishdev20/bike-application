@@ -71,22 +71,7 @@ const Home = ({active, mode}) => {
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..
                                 </p>
-                                {/* <div className="btn-row">
-                                    <button 
-                                        className={`explore-button ${mode ? 'buttonLight' : 'buttonDark'}`}
-                                        onClick={handleClick}
-                                    >
-                                        Explore
-                                       
-                                    <div className="arrow-icon">
-                                        
-                                        <img src={arrow} alt="row"/>
-                                        <div className='circle'></div>
-                                    </div>
-                                    
-                                    </button>
-                                    
-                                </div> */}
+
                                   
                             </div>
                         </Grid>

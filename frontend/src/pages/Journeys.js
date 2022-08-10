@@ -224,8 +224,8 @@ export default function Journeys() {
       departureAt: moment(journey.departureAt).format('YYYY/MM/DD HH:m:s'),
       returnStationName: journey.returnStationName,
       returnAt: moment(journey.returnAt).format('YYYY/MM/DD HH:m:s'),
-      distance: journey.distance,
-      duration: journey.duration,
+      distance:journey.distance / 1000,
+      duration: (journey.duration / 60).toFixed(2),
     }))
 
   

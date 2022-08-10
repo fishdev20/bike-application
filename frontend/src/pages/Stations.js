@@ -174,7 +174,7 @@ export default function Stations() {
         handleCancel={handleCancel}
         handleOk={handleOk}
       >
-
+        Coming soon
       </ModalCustom>
       <TableData columns={columns} tableData={tableData} expand={true}/>
     </div>
