@@ -33,11 +33,11 @@ const Home = ({active, mode}) => {
     
 
     //Image animation
-    gsap.to(app.current, {duration: 1, autoAlpha: 1, delay: 0});
-      gsap.to(firstImage,{duration: 1, y: -120, opacity: 1, zIndex: 1})
-      gsap.to(firstImage.firstElementChild, {duration: 3,scale: 1.5,autoAlpha: 1, ease: "power3.easeOut"})
-      gsap.to(secondImage,{duration: 1, y: 50, opacity: 1})
-      gsap.to(secondImage.firstElementChild,{duration: 1,scale: 1.5, ease: "power3.easeOut"})
+        gsap.to(app.current, {duration: 0.5, autoAlpha: 1, delay: 0});
+      gsap.to(firstImage,{duration: 2, y: -120, opacity: 1, zIndex: 1})
+      gsap.to(firstImage.firstElementChild, {duration: 2,scale: 1.5,autoAlpha: 1, ease: "power3.easeOut"})
+      gsap.to(secondImage,{duration: 2, y: 50, opacity: 1})
+      gsap.to(secondImage.firstElementChild,{duration: 2,scale: 1.5, ease: "power3.easeOut"})
 
     tl.to('.hero-content-line', {
         'clipPath': 'polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)', 

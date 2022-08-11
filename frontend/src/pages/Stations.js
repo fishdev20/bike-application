@@ -177,6 +177,13 @@ export default function Stations() {
         Coming soon
       </ModalCustom>
       <TableData columns={columns} tableData={tableData} expand={true}/>
+      <div
+        className='expand-data'
+        id='expand-data'
+      
+      >
+        Single Station View
+      </div>
     </div>
   )
 }

@@ -20,6 +20,16 @@ const TableData = ({columns,tableData,expand}) => {
         dataSource={tableData}
         expandable={expand ? defaultExpandable : ''}
         // footer={defaultFooter}
+        style={{cursor: 'pointer'}}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: e => {
+              console.log(record)
+              const section = document.getElementById('expand-data')
+              section.scrollIntoView({ behavior: 'smooth' })
+            }
+          }
+        }}
       />
     </div>
   );
