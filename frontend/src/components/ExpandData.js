@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useGlobal } from 'reactn';
 import '../styles/stations.scss';
-
+import {STATION_URL} from '../config';
 import EnvironmentTwoTone from '@ant-design/icons/EnvironmentTwoTone';
 import { Col, Row } from 'antd';
 
@@ -18,7 +18,6 @@ export default function ExpandData({stationId}) {
     const [stationInfo,setStationInfo] = useState({})
     const [address, setAddress] = useState('')
     const [journeys] = useGlobal('journeys')
-    const [STATION_URL] = useGlobal('STATION_URL')
 
     useEffect(() => {
         fetchStationInfo(stationId)

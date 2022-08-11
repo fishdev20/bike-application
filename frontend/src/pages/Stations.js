@@ -8,6 +8,7 @@ import Highlighter from 'react-highlight-words';
 import ExpandData from '../components/ExpandData';
 import ModalCustom from '../components/ModalCustom';
 import '../styles/stations.scss';
+import SingleStationView from '../components/SingleStationView';
 
 
 export default function Stations() {
@@ -177,13 +178,7 @@ export default function Stations() {
         Coming soon
       </ModalCustom>
       <TableData columns={columns} tableData={tableData} expand={true}/>
-      <div
-        className='expand-data'
-        id='expand-data'
-      
-      >
-        Single Station View
-      </div>
+      <SingleStationView />
     </div>
   )
 }

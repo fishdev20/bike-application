@@ -1,4 +1,5 @@
 import { default as axios } from "axios"
+import {STATION_URL, JOURNEYS_URL, ADDJOURNEY_URL} from "../config"
 
 export async function fetchData(setState, url) {
     try {
@@ -9,14 +10,6 @@ export async function fetchData(setState, url) {
     }
 }
 
-export async function fetchJourneysByStationName(setState, url) {
-    try {
-        const response = await axios.get(url)
-        setState(response.data)
-    } catch (e) {
-        throw new Error(e)
-    }
-}
 
 export async function fetchAddress(setState, url) {
     try {
@@ -55,8 +48,7 @@ export async function fetchAddress(setState, url) {
 
 
 export async function addJourneys(body) {
-    const url = `http://localhost:9000/api/addJourneys`
-    fetch ( url, {
+    fetch ( ADDJOURNEY_URL, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -65,3 +57,12 @@ export async function addJourneys(body) {
     })
 }
 
+export async function fetchStationInfo(stationId)  {
+    try {
+        const response = await axios.get(`${STATION_URL}/${stationId}`)
+        const data = await response.data
+        return data
+    } catch (e) {
+        throw new Error(e)
+    }
+}

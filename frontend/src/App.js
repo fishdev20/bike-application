@@ -7,11 +7,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Journeys from './pages/Journeys';
 import { useGlobal } from 'reactn';
 import { fetchData } from './data/fetchData';
+import {STATION_URL,JOURNEYS_URL} from './config';
+
 function App() {
   const [stations, setStations] = useGlobal('stations');
   const [journeys, setJourneys] = useGlobal('journeys');
-  const [STATION_URL] = useGlobal('STATION_URL')
-  const [JOURNEYS_URL] = useGlobal('JOURNEYS_URL')
 
   useEffect(() => {
     fetchData(setStations,STATION_URL);

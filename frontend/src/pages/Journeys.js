@@ -12,9 +12,9 @@ import { addJourneys } from './../data/fetchData';
 import moment from 'moment';
 import JourneyAddForm from '../components/JourneyAddForm';
 import MiniTable from '../components/MiniTable';
+import { JOURNEYS_URL } from '../config';
 
 export default function Journeys() {
-    const [JOURNEYS_URL] = useGlobal('JOURNEYS_URL')
     const [journeys, setJourneys] = useGlobal('journeys');
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');

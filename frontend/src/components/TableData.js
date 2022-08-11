@@ -1,10 +1,12 @@
 import { Table } from 'antd';
 import React from 'react';
-;
+import { useGlobal } from 'reactn';
 
 const defaultFooter = () => 'Here is footer';
 
 const TableData = ({columns,tableData,expand}) => {
+
+  const [stationId,setStationId] = useGlobal('stationId')
   const defaultExpandable = {
     expandedRowRender: (record) => <p>{record.description}</p>,
   };
@@ -25,6 +27,7 @@ const TableData = ({columns,tableData,expand}) => {
           return {
             onClick: e => {
               console.log(record)
+              setStationId(record.description.props.stationId)
               const section = document.getElementById('expand-data')
               section.scrollIntoView({ behavior: 'smooth' })
             }
