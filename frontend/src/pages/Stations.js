@@ -3,9 +3,8 @@ import { useGlobal } from 'reactn';
 import TableData from '../components/TableData';
 
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space } from 'antd';
+import { Button, Input, Space, Tooltip } from 'antd';
 import Highlighter from 'react-highlight-words';
-import ExpandData from '../components/ExpandData';
 import ModalCustom from '../components/ModalCustom';
 import '../styles/stations.scss';
 import SingleStationView from '../components/SingleStationView';
@@ -155,12 +154,12 @@ export default function Stations() {
       number: index +1,
       name: station.name,
       address: `${station.address}, ${station.kaupunki}`,
-      description: <ExpandData stationId={station._id} />,
+      stationId: station._id ,
   }))
 
   return (
     <div className='table-container'>
-      <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
+      <div id='station-btn' style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
         <Button 
           onClick={showModal}
           className='btn-add'
@@ -177,9 +176,26 @@ export default function Stations() {
       >
         Coming soon
       </ModalCustom>
-      <TableData columns={columns} tableData={tableData} expand={true}/>
+      <TableData 
+        id={'station-table'} 
+        columns={columns} 
+        tableData={tableData} 
+        components={{
+          body: {
+            row: CustomRow
+          }
+        }}
+      />
       <SingleStationView />
     </div>
   )
 }
 
+function CustomRow(props) {
+  console.log(props)
+  return (
+    <Tooltip title="Click to see station">
+      <tr {...props} />
+    </Tooltip>
+  );
+}

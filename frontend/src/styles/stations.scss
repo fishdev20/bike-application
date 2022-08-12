@@ -3,7 +3,7 @@
 .table-container {
     width: 100%;
     max-width: 1440px;
-    padding: 100px 0;
+    padding-top: 100px;
     .btn-add {
         background: #007ac9;
         color: #fff;
@@ -16,11 +16,6 @@
     }
     .miniTable-container {
         margin: 50px 0;
-    }
-    .expand-data {
-        height: 100vh;
-        background: #007ac9;
-        color: #fff
     }
 }
 
