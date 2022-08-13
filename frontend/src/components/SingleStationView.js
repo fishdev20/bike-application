@@ -6,8 +6,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { useGlobal } from 'reactn';
 import { fetchAddress, fetchStationInfo } from '../data/fetchData';
-import bikeLoading from "../bikeLoading.json"
-import arrowUp from "../arrowUp.json"
+import bikeLoading from "../animation/bikeLoading.json"
+import arrowUp from "../animation/arrowUp.json"
 import '../styles/singleStationView.scss'
 import PinDropIcon from '@mui/icons-material/PinDrop';
 

@@ -2,7 +2,7 @@ import gsap from 'gsap'
 import React, { useEffect, useRef } from 'react'
 import "../styles/home.scss";
 import { Grid } from '@mui/material';
-import bikeAnimation from "../bikeAnimation.json"
+import bikeAnimation from "../animation/bikeAnimation.json"
 import Lottie from 'react-lottie'
 
 
