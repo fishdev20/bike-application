@@ -11,7 +11,7 @@ import SingleStationView from '../components/SingleStationView';
 
 
 export default function Stations() {
-    const [stations, setStations] = useGlobal('stations');
+    const [stations] = useGlobal('stations');
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
     const [searchText, setSearchText] = useState('');
@@ -192,7 +192,6 @@ export default function Stations() {
 }
 
 function CustomRow(props) {
-  console.log(props)
   return (
     <Tooltip title="Click to see station">
       <tr {...props} />

@@ -5,17 +5,26 @@
     display: flex;
     justify-content: center;
     height: 100vh;
-    background: #007ac9;
+    background: #fff;
+    h1 {
+        color: #007ac9;
+        clip-path: polygon(0 100%, 100% 100%, 100% 100%,0% 100%);
+        opacity: 0;
+        transform: translateY(100px);
+    }
     .station {
         padding: 32px;
         width: 100%;
         text-align: left;
-        color: #fff;
+        color: #007ac9;
         .station-heading {
             display: flex;
             justify-content: space-between;
             h1,h4 {
-                color: #fff;
+                color: #007ac9;
+                clip-path: polygon(0 100%, 100% 100%, 100% 100%,0% 100%);
+                opacity: 0;
+                transform: translateY(100px);
             }
         }
         .arrow-btn {
@@ -30,7 +39,11 @@
                 flex-direction: column;
                 justify-content: space-around;
                 h4 {
-                    color: #fff;
+                    color: #007ac9;
+                    clip-path: polygon(0 100%, 100% 100%, 100% 100%,0% 100%);
+                    opacity: 0;
+                    transform: translateY(100px);
+                    
                 }
                 
             }
