@@ -1,42 +1,37 @@
 /* eslint-disable default-case */
 import React, { useEffect, useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
-import { fetchData } from '../data/fetchData';
+import { fetchJourneys } from '../data/fetchData';
 import TableData from '../components/TableData';
 import '../styles/stations.scss'
 import { Button, Col, Input, Row, Space} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import { v4 as uuid } from 'uuid';
-import { addJourneys } from './../data/fetchData';
 import moment from 'moment';
 import JourneyAddForm from '../components/JourneyAddForm';
 import MiniTable from '../components/MiniTable';
-import { JOURNEYS_URL } from '../config';
 
 export default function Journeys() {
     const [journeys, setJourneys] = useGlobal('journeys');
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [visible, setVisible] = useState(false);
-    const [stationData, setStationData] = useState({
-      departure: '',
-      departureId: '',
-      departureAt: '',
-      return: '',
-      returnId: '',
-      returnAt: '',
-      distance: null,
-      duration:  null,
-      id: uuid()
-
-    })
+    const [loading, setLoading] = useState(false)
+    const [stationData,setStationData] = useState({})
     const searchInput = useRef(null);
 
+
     useEffect(() => {
-      stationData.departure !== '' && addJourneys(stationData)
-      stationData.departure !== '' && fetchData(setJourneys,JOURNEYS_URL);
+      setLoading(true);
+      fetchData();
     },[stationData])
+
+    const fetchData = async () => {
+      const fetchedJourneys = await  fetchJourneys()
+      setLoading(false);
+      setJourneys(fetchedJourneys)
+    }
 
     const topFiveStation = (key) => {
       let obj
@@ -66,7 +61,6 @@ export default function Journeys() {
           },{})
           break;
       }
-      
       const sort = Object.entries(obj).map(value => value)
       const arr = sort.map(e => ({ name: e[0], amount: e[1] }))
       const result = arr.sort((a,b) => {return a.amount - b.amount})
@@ -77,8 +71,6 @@ export default function Journeys() {
       }))
       return topFive;
     }
-
-
 
     const showModal = () => {
       setVisible(true);
@@ -240,13 +232,18 @@ export default function Journeys() {
         </Button>
       </div>
         <JourneyAddForm
-          stationData={stationData} 
-          setStationData={setStationData}
           visible={visible}
           setVisible={setVisible}
+          stationData={stationData}
+          setStationData={setStationData}
+          loading={loading}
         />
-      <TableData columns={columns} tableData={tableData.reverse()}/>
-      <div className='miniTable-container'>
+      <TableData 
+        loading={loading}
+        columns={columns} 
+        tableData={tableData.reverse()}
+      />
+      {Boolean(journeys.length) && <div className='miniTable-container'>
         <Row style={{rowGap: 50}}>
           <Col md={12} xs={24}>
             <MiniTable 
@@ -281,7 +278,7 @@ export default function Journeys() {
             />
           </Col>
         </Row>
-      </div>
+      </div>}
       
       
     </div>

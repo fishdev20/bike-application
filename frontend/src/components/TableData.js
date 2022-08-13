@@ -1,11 +1,16 @@
-import { Table, Tooltip } from 'antd';
+import { Table } from 'antd';
 import React from 'react';
 import { useGlobal } from 'reactn';
+import { BikeLoading } from '../animation/IconAnimation';
 
 
-const TableData = ({columns,tableData,expand,id,components}) => {
-
+const TableData = ({columns,tableData,expand,id,components,loading}) => {
   const [stationId,setStationId] = useGlobal('stationId')
+
+  const loadingVal = {
+    spinning: loading,
+    indicator: <BikeLoading/> ,
+  }
   
   return (
     <div className=''>
@@ -15,7 +20,7 @@ const TableData = ({columns,tableData,expand,id,components}) => {
         // {...tableProps}
         scroll={{y : 600}}
         bordered={true}
-        loading={!Boolean(tableData.length)}
+        loading={loadingVal}
         columns={columns}
         dataSource={tableData}
         style={{cursor: 'pointer'}}

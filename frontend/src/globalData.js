@@ -5,5 +5,6 @@ setGlobal({
     singleStation: {},
     stationId: null,
     journeys: [],
-    stationInfoList: []
+    stationInfoList: [],
+    loading: false
 });

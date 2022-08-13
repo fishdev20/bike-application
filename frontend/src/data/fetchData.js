@@ -1,10 +1,22 @@
 import { default as axios } from "axios"
 import {STATION_URL, JOURNEYS_URL, ADDJOURNEY_URL} from "../config"
 
-export async function fetchData(setState, url) {
+export async function fetchJourneys() {
     try {
-        const response = await axios.get(url)
-        setState(response.data)
+        const response = await axios.get(JOURNEYS_URL)
+        // const data = await response.data.journeys
+        const data = await response.data
+        return data
+    } catch (e) {
+        throw new Error(e)
+    }
+}
+
+export async function fetchStations() {
+    try {
+        const response = await axios.get(STATION_URL)
+        const data = await response.data
+        return data
     } catch (e) {
         throw new Error(e)
     }
@@ -66,3 +78,5 @@ export async function fetchStationInfo(stationId)  {
         throw new Error(e)
     }
 }
+
+

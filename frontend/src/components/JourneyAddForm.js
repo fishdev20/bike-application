@@ -1,16 +1,18 @@
 import { AutoComplete, Button, DatePicker, Form, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { getStationAndId } from '../data/fetchData';
+import { addJourneys, getStationAndId } from '../data/fetchData';
 import { v4 as uuid } from 'uuid';
 import ModalCustom from './ModalCustom';
+import moment from 'moment';
 
 const { Option } = AutoComplete; 
 
-export default function JourneyAddForm({stationData, setStationData, visible, setVisible}) {
+export default function JourneyAddForm({visible, setVisible, setStationData,loading}) {
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState(false);
     const [listStation, setListStation] = useState([])
     const [resultStation, setResultStation] = useState([])
+    const [departureId,setDepartureId] = useState('')
+    const [returnId,setReturnId] = useState('')
 
     useEffect(() => {
         getStationAndId(setListStation)
@@ -25,22 +27,18 @@ export default function JourneyAddForm({stationData, setStationData, visible, se
         if (value[0].name[0] === 'departure') {
           if(value[0].value) {
             const optionList = listStation?.filter((station) => station.name.toLowerCase().indexOf(value[0].value) === 0 || station.name.indexOf(value[0].value) === 0)
-            const departureId = optionList?.[0].stationId
+            const _departureId = optionList?.[0].stationId
             setResultStation(optionList);
-            form.setFieldsValue({
-              departureId: departureId
-            })
+            setDepartureId(_departureId)
           }else {
             setResultStation([]);
           }
         } else if(value[0].name[0] === 'return') {
           if(value[0].value) {
             const optionList = listStation?.filter((station) => station.name.toLowerCase().indexOf(value[0].value) === 0 || station.name.indexOf(value[0].value) === 0)
-            const returnId = optionList?.[0].stationId
+            const _returnId = optionList?.[0].stationId
             setResultStation(optionList);
-            form.setFieldsValue({
-              returnId: returnId
-            })
+            setReturnId(_returnId)
           }else {
             setResultStation([]);
           }
@@ -48,24 +46,20 @@ export default function JourneyAddForm({stationData, setStationData, visible, se
     
     }
     const onFinish = (values) => {
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          setVisible(false);
-        }, 2000);
-        const saveStation = {
+        setVisible(false);
+        const body = {
           departure: values.departure,
-          departureId: values.departureId,
+          departureId: departureId,
           departureAt: values.departure_time.format(`YYYY-MM-DDTHH:mm:ss`),
           return: values.return,
-          returnId: values.returnId,
+          returnId: returnId,
           returnAt: values.return_time.format(`YYYY-MM-DDTHH:mm:ss`),
           distance: values.distance,
-          duration:  values.duration,
+          duration:  moment(values.return_time).diff(moment(values.departure_time), 'second'),
           id: uuid()
-        }  
-        setStationData(saveStation)
-        
+        }
+        setStationData(body)
+        addJourneys(body)
         form.resetFields();
       };
   return (
@@ -92,18 +86,6 @@ export default function JourneyAddForm({stationData, setStationData, visible, se
                 </Option>
               ))}
             </AutoComplete>
-          </Form.Item>
-          <Form.Item
-            name="departureId"
-            label="Departure Station Id"
-            rules={[
-              {
-                required: true,
-                message: 'Id is required'
-              },
-            ]}
-          >
-            <Input/>
           </Form.Item>
           <Form.Item 
             name="departure_time" 
@@ -135,18 +117,6 @@ export default function JourneyAddForm({stationData, setStationData, visible, se
               ))}
             </AutoComplete>
           </Form.Item>
-          <Form.Item
-            name="returnId"
-            label="Return Station Id"
-            rules={[
-              {
-                required: true,
-                message: 'Id is required'
-              },
-            ]}
-          >
-            <Input/>
-          </Form.Item>
           <Form.Item 
             name="return_time" 
             label="Return Time"
@@ -161,23 +131,11 @@ export default function JourneyAddForm({stationData, setStationData, visible, se
           </Form.Item>
           <Form.Item
             name="distance"
-            label="Distance"
+            label="Distance(m)"
             rules={[
               {
                 required: true,
                 message: 'Distance is required'
-              },
-            ]}
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            name="duration"
-            label="Duration"
-            rules={[
-              {
-                required: true,
-                message: 'Duration is required'
               },
             ]}
           >

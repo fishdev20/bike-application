@@ -1,38 +1,19 @@
 /* eslint-disable default-case */
-import { EnvironmentTwoTone } from '@ant-design/icons';
 import { Col, Row, Tooltip } from 'antd';
 import { sumBy } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { useGlobal } from 'reactn';
 import { fetchAddress, fetchStationInfo } from '../data/fetchData';
-import bikeLoading from "../animation/bikeLoading.json"
-import arrowUp from "../animation/arrowUp.json"
 import '../styles/singleStationView.scss'
 import PinDropIcon from '@mui/icons-material/PinDrop';
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import Lottie from 'react-lottie';
 import gsap from 'gsap';
+import  { BikeLoading, Arrow } from '../animation/IconAnimation';
 
-const loadingOptions = {
-  loop: true,
-  autoplay: true, 
-  animationData: bikeLoading,
-  rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice'
-  }
-};
 
-const arrowOptions = {
-  loop: true,
-  autoplay: true, 
-  animationData: arrowUp,
-  rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice'
-  }
-}
 
 export default function SingleStationView() {
     const [stationId] = useGlobal('stationId')
@@ -157,20 +138,14 @@ export default function SingleStationView() {
             
           >
             <div>
-              <Lottie options={arrowOptions}
-                    height={70}
-                    width={70}
-              />
+              <Arrow/>
             </div>
           </Tooltip>
         </div>
       </div>
         : <div className='station'>
             {isLoading ? 
-              <Lottie options={loadingOptions}
-                  height={350}
-                  width={350}
-              /> : 
+              <BikeLoading/> : 
               <div>
                 <div className='station-heading'>
                   <div ref={heading}>
@@ -188,10 +163,7 @@ export default function SingleStationView() {
                       placement="topRight"
                     >
                       <div>
-                        <Lottie options={arrowOptions}
-                              height={70}
-                              width={70}
-                        />
+                        <Arrow/>
                       </div>
                     </Tooltip>
                   </div>

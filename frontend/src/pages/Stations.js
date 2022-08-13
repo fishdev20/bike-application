@@ -177,7 +177,9 @@ export default function Stations() {
         Coming soon
       </ModalCustom>
       <TableData 
+      
         id={'station-table'} 
+        loading={!Boolean(tableData.length)}
         columns={columns} 
         tableData={tableData} 
         components={{

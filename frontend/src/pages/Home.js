@@ -2,8 +2,7 @@ import gsap from 'gsap'
 import React, { useEffect, useRef } from 'react'
 import "../styles/home.scss";
 import { Grid } from '@mui/material';
-import bikeAnimation from "../animation/bikeAnimation.json"
-import Lottie from 'react-lottie'
+import { BikeAnimation } from '../animation/IconAnimation';
 
 
 
@@ -13,17 +12,6 @@ const Home = ({active, mode}) => {
     let content = useRef(null)
     let tl = gsap.timeline()
 
-
-    const defaultOptions = {
-        loop: true,
-        autoplay: true, 
-        animationData: bikeAnimation,
-        rendererSettings: {
-          preserveAspectRatio: 'xMidYMid slice'
-        }
-      };
-
-    
   useEffect(() => {
    
     // Images Vars
@@ -81,10 +69,7 @@ const Home = ({active, mode}) => {
                                     In this service, you can view Bike's stations and bike's journeys in Helsinki, you also can add a new journey yourself in Journeys tab.
                                 </p>
                                 <div className='bike-animation'>
-                                    <Lottie options={defaultOptions}
-                                        height={350}
-                                        width={350}
-                                    />
+                                    <BikeAnimation/>
                                 </div>
 
                                   

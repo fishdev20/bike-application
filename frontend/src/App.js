@@ -6,17 +6,27 @@ import Stations from './pages/Stations';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Journeys from './pages/Journeys';
 import { useGlobal } from 'reactn';
-import { fetchData } from './data/fetchData';
-import {STATION_URL,JOURNEYS_URL} from './config';
+import { fetchJourneys, fetchStations } from './data/fetchData';
 
 function App() {
-  const [stations, setStations] = useGlobal('stations');
-  const [journeys, setJourneys] = useGlobal('journeys');
+  const [, setStations] = useGlobal('stations');
+  const [, setJourneys] = useGlobal('journeys');
+
 
   useEffect(() => {
-    fetchData(setStations,STATION_URL);
-    fetchData(setJourneys,JOURNEYS_URL);
+    fetchDataStations();
+    // fetchDataJourneys();
   },[])
+
+  const fetchDataJourneys = async () => {
+    const fetchedJourneys = await  fetchJourneys()
+    setJourneys(fetchedJourneys)
+    
+  }
+  const fetchDataStations = async () => {
+    const fetchedStations = await fetchStations()
+    setStations(fetchedStations)
+  }
   
   return (
     <div className="App">

@@ -99,6 +99,21 @@ app.get('/api/journeys', async (req, res) => {
   }
 })
 
+
+
+// app.get('/api/journeys', async (req, res) => {
+//   const PAGE_SIZE = req.query.size || 50
+//   const page = parseInt(req.query.page || "0")
+//   const total = await Journeys.countDocuments({})
+//   const journeys = await Journeys.find({}).limit(PAGE_SIZE).skip(PAGE_SIZE * page)
+
+//   return res.json({
+//     total: Math.ceil(total / PAGE_SIZE),
+//     journeys
+//   })
+// })
+
+
 app.get('/api/journeys/:id', (req, res) => {
   Journeys.findById(req.params.id).then((journey) => {
     res.json(journey)
