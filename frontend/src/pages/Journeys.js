@@ -11,6 +11,7 @@ import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import JourneyAddForm from '../components/JourneyAddForm';
 import MiniTable from '../components/MiniTable';
+import { ToastContainer } from 'react-toastify';
 
 export default function Journeys() {
   const [allJourneys,setAllJourneys] = useGlobal('allJourneys')
@@ -232,6 +233,7 @@ export default function Journeys() {
     }))
   return (
     <div className='table-container'>
+      <ToastContainer position="top-center"/>
       <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
         <Button 
           onClick={showModal}

@@ -1,5 +1,6 @@
 import { default as axios } from "axios"
 import {STATION_URL, JOURNEYS_URL,ALLJOURNEYS_URL, ADDJOURNEY_URL} from "../config"
+import {  toast } from 'react-toastify';
 
 export async function fetchAllJourneys() {
     try {
@@ -76,6 +77,8 @@ export async function addJourneys(body) {
         },
         body: JSON.stringify(body)
     })
+    .then(toast.success("Add journeys successfully!"))
+    .catch(e => console.log(e))
 }
 
 export async function fetchStationInfo(stationId)  {
