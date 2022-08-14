@@ -6,10 +6,16 @@ An excercise of Solita Dev Academic 2022.
 
 Run project in local
 
+#### Clone repository
+
+```bash
+git clone https://github.com/fishdev20/bike-application.git
+```
+
 #### Backend
  *Note: 
  - .env file will be attached to the application email, Please download and paste it into /backend/ folder.
- - Please also paste the journeys file as well as station.csv in the project folder.
+ - Please also paste the journeys file as well as station.csv in the project folder.(this is not nessesary!)
 
 ```bash
   cd backend
