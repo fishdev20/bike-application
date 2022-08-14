@@ -51,8 +51,19 @@ Run project in local
 #### Get all journeys
 
 ```http
-  GET /api/journeys
+  GET /api/allJourneys
 ```
+
+#### Get journeys(pagination)
+
+```http
+  GET /api/journeys/?page&size
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `page`      | `number` | page |
+| `size`      | `number` | rows per page |
 
 #### Get single journey details
 
