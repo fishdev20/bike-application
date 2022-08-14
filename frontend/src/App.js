@@ -21,10 +21,12 @@ function App() {
   const fetchAllJourneysData = async () => {
     const fetchedJourneys = await  fetchAllJourneys()
     setAllJourneys(fetchedJourneys) 
+    localStorage.setItem("Total Journeys",JSON.stringify(fetchedJourneys.journeys))
   }
   const fetchDataStations = async () => {
     const fetchedStations = await fetchStations()
     setStations(fetchedStations)
+    localStorage.setItem("Total Stations",JSON.stringify(fetchedStations))
   }
   
   return (

@@ -20,9 +20,8 @@ export default function SingleStationView() {
     const [stationInfo,setStationInfo] = useState({})
     const [address, setAddress] = useState('')
     const [ isLoading, setIsLoading ] = useState(false);
-    const [journeys] = useGlobal('journeys')
+    const allJourneys = JSON.parse(localStorage.getItem("Total Journeys"))
     const [position, setPosition] = useState([])
-
     const info = useRef(null)
     const heading = useRef(null)
     const text = useRef(null)
@@ -51,10 +50,10 @@ export default function SingleStationView() {
       let filteredInfo
       switch(kind) {
         case 'START':
-          filteredInfo = journeys?.filter(journey => journey.departureStationName === stationInfo.name)
+          filteredInfo = allJourneys?.filter(journey => journey.departureStationName === stationInfo.name)
           break;
         case 'END': 
-          filteredInfo = journeys?.filter(journey => journey.returnStationName === stationInfo.name)
+          filteredInfo = allJourneys?.filter(journey => journey.returnStationName === stationInfo.name)
           break;
       }
       const averageDistance = sumBy(filteredInfo, (item) => {return item.distance}) / filteredInfo?.length
