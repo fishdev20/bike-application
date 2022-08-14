@@ -1,7 +1,7 @@
 /* eslint-disable default-case */
 import React, { useEffect, useRef, useState } from 'react';
 import { useGlobal } from 'reactn';
-import { fetchJourneys } from '../data/fetchData';
+import { fetchAllJourneys, fetchJourneysData } from '../data/fetchData';
 import TableData from '../components/TableData';
 import '../styles/stations.scss'
 import { Button, Col, Input, Row, Space} from 'antd';
@@ -13,31 +13,42 @@ import JourneyAddForm from '../components/JourneyAddForm';
 import MiniTable from '../components/MiniTable';
 
 export default function Journeys() {
-    const [journeys, setJourneys] = useGlobal('journeys');
+  const [allJourneys,setAllJourneys] = useGlobal('allJourneys')
+    const [journeysData, setJourneysData] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false)
+    const[page,setPage] = useState(0)
+    const [totalPages, setTotalPages] = useState(1)
+    const [pageSize,setPageSize] = useState(10)
     const [stationData,setStationData] = useState({})
     const searchInput = useRef(null);
 
 
     useEffect(() => {
       setLoading(true);
-      fetchData();
-    },[stationData])
+      fetchJourneys(page,pageSize);
+      fetchAllJourneysData()
+    },[page,pageSize,stationData])
 
-    const fetchData = async () => {
-      const fetchedJourneys = await  fetchJourneys()
+    const fetchAllJourneysData = async () => {
+      const fetchedJourneys = await  fetchAllJourneys()
       setLoading(false);
-      setJourneys(fetchedJourneys)
+      setAllJourneys(fetchedJourneys) 
     }
 
+    const fetchJourneys = async (page,size) => {
+      const response = await  fetchJourneysData(page,size)
+      setLoading(false);
+      setTotalPages(response.total * pageSize  - size)
+      setJourneysData(response.journeys)
+    }
     const topFiveStation = (key) => {
       let obj
       switch(key){
         case 'departureStationName' :
-          obj = journeys.reduce((x,y)=>{
+          obj = allJourneys?.journeys?.reduce((x,y)=>{
             if(x[y.departureStationName]) {
                 x[y.departureStationName]++;
                 return x;
@@ -49,7 +60,7 @@ export default function Journeys() {
           },{})
           break;
         case 'returnStationName' : 
-          obj = journeys.reduce((x,y)=>{
+          obj = allJourneys?.journeys?.reduce((x,y)=>{
             if(x[y.returnStationName]) {
                 x[y.returnStationName]++;
                 return x;
@@ -209,7 +220,7 @@ export default function Journeys() {
         sorter: (a, b) => b.duration - a.duration
       }
     ];
-    const tableData = journeys.reverse().map((journey,index) => ({
+    const tableData = journeysData.map((journey,index) => ({
       key: index,
       journeys: index + 1,
       departureStationName: journey.departureStationName,
@@ -219,8 +230,6 @@ export default function Journeys() {
       distance:journey.distance / 1000,
       duration: (journey.duration / 60).toFixed(2),
     }))
-
-  
   return (
     <div className='table-container'>
       <div style={{display:'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 32px'}}>
@@ -241,12 +250,26 @@ export default function Journeys() {
       <TableData 
         loading={loading}
         columns={columns} 
-        tableData={tableData.reverse()}
+        tableData={tableData}
+        pagination={{
+          total: (totalPages),
+          onChange: (page,pageSize) => {
+            setPage(page)
+            fetchJourneysData(page,pageSize)
+          },
+          pageSizeOptions: [10,20,50,100],
+          pageSize: pageSize,
+          onShowSizeChange: (current,size) => {
+            setPageSize(size)
+            fetchJourneysData(page,pageSize)
+          }
+        }}
       />
-      {Boolean(journeys.length) && <div className='miniTable-container'>
+      {allJourneys?.journeys?.length > 0 ? <div className='miniTable-container'>
         <Row style={{rowGap: 50}}>
           <Col md={12} xs={24}>
             <MiniTable 
+              loading={loading}
               title={() => { return <h4> Top 5 departure station </h4>}}
               columns = {[
                 {
@@ -263,6 +286,7 @@ export default function Journeys() {
           </Col>
           <Col md={12} xs={24}>
           <MiniTable 
+              loading={loading}
               title={() => { return <h4> Top 5 return station </h4>}}
               columns = {[
                 {
@@ -278,7 +302,8 @@ export default function Journeys() {
             />
           </Col>
         </Row>
-      </div>}
+      </div>
+      : <h1>Analyzing...</h1>}
       
       
     </div>

@@ -1,10 +1,19 @@
 import { default as axios } from "axios"
-import {STATION_URL, JOURNEYS_URL, ADDJOURNEY_URL} from "../config"
+import {STATION_URL, JOURNEYS_URL,ALLJOURNEYS_URL, ADDJOURNEY_URL} from "../config"
 
-export async function fetchJourneys() {
+export async function fetchAllJourneys() {
     try {
-        const response = await axios.get(JOURNEYS_URL)
-        // const data = await response.data.journeys
+        const response = await axios.get(ALLJOURNEYS_URL)
+        const data = await response.data
+        return data
+    } catch (e) {
+        throw new Error(e)
+    }
+}
+
+export async function fetchJourneysData(page,size)  {
+    try {
+        const response = await axios.get(`${JOURNEYS_URL}?page=${page}&size=${size}`)
         const data = await response.data
         return data
     } catch (e) {

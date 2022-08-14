@@ -25,22 +25,6 @@ app.get('/', (req, res) => {
     res.send('<h1>Welcome Minh<h1>')
 })
 
-// app.get('/api/stations', async (req, res) => {
-//   const skip = req.query.skip ? Number(req.query.skip) : 0;
-//   const search = new ApiSearch(stations.find(), req.query)
-//   let searchQuery = {};
-//   if(req.query.search) {
-    
-//   }
-//   const default_limit = 10;
-//   stations
-//   .find()
-//   .skip(skip)
-//   .limit(default_limit)
-//   .then((stations) => {
-//     res.json(stations)
-//   })
-// })
 
 //STATIONS ENDPOINT
 app.get('/api/stations', async (req, res) => {
@@ -86,32 +70,37 @@ app.post('/api/addStation', (req, res) => {
 })
 
 //JOURNEYS ENDPOINT
-app.get('/api/journeys', async (req, res) => {
-  try {
-    const features = new Apifeatures(Journeys.find(), req.query)
-    // .paginating()
-    // .searching()
-    const journeysRes = await features.query
+// app.get('/api/journeys', async (req, res) => {
+//   try {
+//     const features = new Apifeatures(Journeys.find(), req.query)
+//     // .paginating()
+//     // .searching()
+//     const journeysRes = await features.query
 
-    return res.status(200).json(journeysRes)
-  } catch (err) {
-    return res.status(500).json({msg: err.message})
-  }
+//     return res.status(200).json(journeysRes)
+//   } catch (err) {
+//     return res.status(500).json({msg: err.message})
+//   }
+// })
+
+
+
+app.get('/api/journeys', async (req, res) => {
+  const PAGE_SIZE = req.query.size || 10
+  const page = parseInt(req.query.page || "0")
+  const total = await Journeys.countDocuments({})
+  const journeys = await Journeys.find({}).limit(PAGE_SIZE).skip(PAGE_SIZE * page)
+
+  return res.json({
+    total: Math.ceil(total / PAGE_SIZE),
+    journeys
+  })
 })
 
-
-
-// app.get('/api/journeys', async (req, res) => {
-//   const PAGE_SIZE = req.query.size || 50
-//   const page = parseInt(req.query.page || "0")
-//   const total = await Journeys.countDocuments({})
-//   const journeys = await Journeys.find({}).limit(PAGE_SIZE).skip(PAGE_SIZE * page)
-
-//   return res.json({
-//     total: Math.ceil(total / PAGE_SIZE),
-//     journeys
-//   })
-// })
+app.get('/api/allJourneys', async (req, res) => {
+  const journeys = await Journeys.find({})
+  return res.json({journeys})
+})
 
 
 app.get('/api/journeys/:id', (req, res) => {
@@ -157,18 +146,6 @@ function Apifeatures(query, queryString) {
   }
 
   this.searching = () => {
-    const search = this.queryString.search
-    if(search) {
-      this.query = this.query.find({
-        $text: { $search: search}
-      })
-    } else {
-      this.query = this.query.find()
-    }
-    return this;
-  }
-
-  this.filtering = () => {
     const search = this.queryString.search
     if(search) {
       this.query = this.query.find({

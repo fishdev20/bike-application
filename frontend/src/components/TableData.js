@@ -4,7 +4,7 @@ import { useGlobal } from 'reactn';
 import { BikeLoading } from '../animation/IconAnimation';
 
 
-const TableData = ({columns,tableData,expand,id,components,loading}) => {
+const TableData = ({columns,tableData,expand,id,components,loading,pagination}) => {
   const [stationId,setStationId] = useGlobal('stationId')
 
   const loadingVal = {
@@ -15,6 +15,7 @@ const TableData = ({columns,tableData,expand,id,components,loading}) => {
   return (
     <div className=''>
       <Table
+        pagination={pagination}
         id={id}
         components={components}
         // {...tableProps}
