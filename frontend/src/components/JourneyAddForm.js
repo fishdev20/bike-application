@@ -10,17 +10,20 @@ const { Option } = AutoComplete;
 export default function JourneyAddForm({visible, setVisible, setStationData,loading}) {
     const [form] = Form.useForm();
     const [listStation, setListStation] = useState([])
-    const [resultStation, setResultStation] = useState([])
+    const [departureList, setDepartureList] = useState([])
+    const [returnList, setReturnList] = useState([])
     const [departureId,setDepartureId] = useState('')
     const [returnId,setReturnId] = useState('')
 
     useEffect(() => {
         getStationAndId(setListStation)
     },[])
-      
+
     const handleCancel = () => {
         setVisible(false);
         form.resetFields();
+        setDepartureList([])
+        setReturnList([])
     };
 
     const onFieldsChange = (value) => {
@@ -28,19 +31,19 @@ export default function JourneyAddForm({visible, setVisible, setStationData,load
           if(value[0].value) {
             const optionList = listStation?.filter((station) => station.name.toLowerCase().indexOf(value[0].value) === 0 || station.name.indexOf(value[0].value) === 0)
             const _departureId = optionList?.[0].stationId
-            setResultStation(optionList);
+            setDepartureList(optionList);
             setDepartureId(_departureId)
           }else {
-            setResultStation([]);
+            setDepartureList([]);
           }
         } else if(value[0].name[0] === 'return') {
           if(value[0].value) {
             const optionList = listStation?.filter((station) => station.name.toLowerCase().indexOf(value[0].value) === 0 || station.name.indexOf(value[0].value) === 0)
             const _returnId = optionList?.[0].stationId
-            setResultStation(optionList);
+            setReturnList(optionList);
             setReturnId(_returnId)
           }else {
-            setResultStation([]);
+            setReturnList([]);
           }
         }
     
@@ -59,6 +62,8 @@ export default function JourneyAddForm({visible, setVisible, setStationData,load
           id: uuid()
         }
         setStationData(body)
+        setDepartureList([])
+        setReturnList([])
         addJourneys(body)
         form.resetFields();
       };
@@ -77,10 +82,25 @@ export default function JourneyAddForm({visible, setVisible, setStationData,load
                 required: true,
                 message: 'Departure Station is required'
               },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  const isValid = departureList.some(element => {
+                    if (element.name === value) {
+                      return true;
+                    }
+                  
+                    return false;
+                  });
+                  if(isValid) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('Station can not be found'));
+                }
+              })
             ]}
           >
             <AutoComplete>
-              {resultStation?.map((station, idx) => (
+              {departureList?.map((station, idx) => (
                 <Option key={idx} value={station.name}>
                   {station.name}
                 </Option>
@@ -105,12 +125,27 @@ export default function JourneyAddForm({visible, setVisible, setStationData,load
             rules={[
               {
                 required: true,
-                message: 'Return Station is required'
+                message: 'Departure Station is required'
               },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  const isValid = returnList.some(element => {
+                    if (element.name === value) {
+                      return true;
+                    }
+                  
+                    return false;
+                  });
+                  if(isValid) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('Station can not be found'));
+                }
+              })
             ]}
           >
             <AutoComplete>
-              {resultStation?.map((station, idx) => (
+              {returnList?.map((station, idx) => (
                 <Option key={idx} value={station.name}>
                   {station.name}
                 </Option>
@@ -135,11 +170,25 @@ export default function JourneyAddForm({visible, setVisible, setStationData,load
             rules={[
               {
                 required: true,
-                message: 'Distance is required'
+                min: 0,
+                message: 'Distance is invalid'
               },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  const invalidChars = [
+                    "-",
+                    "+",
+                    "e",
+                  ];
+                  if(invalidChars.includes(value)) {
+                    return Promise.reject(new Error('Distance is invalid'));
+                  }
+                  return Promise.resolve();
+                }
+              })
             ]}
           >
-            <Input/>
+            <Input type={'number'}/>
           </Form.Item>
           <Form.Item>
             <Button className='btn-submit' type="primary" htmlType="submit" loading={loading}>
